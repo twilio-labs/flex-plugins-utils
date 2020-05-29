@@ -1,0 +1,65 @@
+{
+  "name": "flex-plugins-utils",
+  "version": "0.0.1",
+  "description": "Flex Plugins Utils",
+  "keywords": [
+    "flex",
+    "flex plugins",
+    "flex plugins utils"
+  ],
+  "homepage": "https://github.com/twilio/flex-plugins-utils#readme",
+  "bugs": {
+    "url": "https://github.com/twilio/flex-plugins-utils/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/twilio/flex-plugins-utils.git"
+  },
+  "license": "MIT",
+  "author": "Kousha Talebian <k@ousha.me>",
+  "contributors": [
+    "Kousha Talebian <k@ousha.me>"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prebuild": "npm run clean",
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "lint": "eslint --ext ts src/",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "jest --coverage --color",
+    "test:coverage": "jest --coverage --color --watchAll=false",
+    "test:watch": "jest --watchAll --color"
+  },
+  "directories": {
+    "lib": "src",
+    "test": "__tests__"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
+    }
+  },
+  "dependencies": {
+    "chalk": "^4.0.0",
+    "wrap-ansi": "^4.0.0",
+    "boxen": "^4.1.0",
+    "eslint": "^7.1.0",
+    "log-symbols": "^3.0.0",
+    "eslint-config-twilio-ts": "^1.23.0",
+    "table": "^5.4.6"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/node": "^14.0.5",
+    "@types/table": "^4.0.7",
+    "@types/wrap-ansi": "^3.0.0",
+    "jest": "^26.0.1",
+    "ts-jest": "^26.0.0"
+  }
+}
