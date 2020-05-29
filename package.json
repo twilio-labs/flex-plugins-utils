@@ -33,10 +33,10 @@
     "prebuild": "npm run clean",
     "build": "tsc",
     "clean": "rm -rf dist",
+    "coverage": "codecov",
     "lint": "eslint --ext ts src/",
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --color",
-    "test:coverage": "jest --coverage --color",
     "test:ci": "jest --clearCache && jest --color --coverage",
     "test:watch": "jest --watchAll --color"
   },
@@ -49,8 +49,6 @@
   "dependencies": {
     "boxen": "^4.1.0",
     "chalk": "^4.0.0",
-    "eslint": "^7.1.0",
-    "eslint-config-twilio-ts": "^1.23.0",
     "log-symbols": "^3.0.0",
     "table": "^5.4.6",
     "wrap-ansi": "^4.0.0"
@@ -60,6 +58,9 @@
     "@types/node": "^14.0.5",
     "@types/table": "^4.0.7",
     "@types/wrap-ansi": "^3.0.0",
+    "codecov": "^3.7.0",
+    "eslint": "^7.1.0",
+    "eslint-config-twilio-ts": "^1.23.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "ts-jest": "^26.0.0"
