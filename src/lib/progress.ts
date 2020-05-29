@@ -16,7 +16,7 @@ interface OraOptions {
 /* istanbul ignore next */
 export const _getSpinner = (text: string) => {
   const options: OraOptions = { text };
-  if (env.isDebug() || env.isTrace()) {
+  if (env.isDebug() || env.isTrace() || env.isQuiet()) {
     options.isEnabled = false;
   }
 
