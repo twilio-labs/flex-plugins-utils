@@ -1,5 +1,5 @@
 {
-  "name": "flex-plugins-logger",
+  "name": "flex-plugins-utils-logger",
   "version": "0.0.1",
   "description": "Flex Plugins Logger",
   "keywords": [
@@ -7,13 +7,13 @@
     "flex plugins",
     "flex plugins logger"
   ],
-  "homepage": "https://github.com/twilio/flex-plugins-logger#readme",
+  "homepage": "https://github.com/twilio/flex-plugins-utils-logger#readme",
   "bugs": {
-    "url": "https://github.com/twilio/flex-plugins-logger/issues"
+    "url": "https://github.com/twilio/flex-plugins-utils-logger/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twilio/flex-plugins-logger.git"
+    "url": "git+https://github.com/twilio/flex-plugins-utils-logger.git"
   },
   "license": "MIT",
   "author": "Kousha Talebian <k@ousha.me>",
