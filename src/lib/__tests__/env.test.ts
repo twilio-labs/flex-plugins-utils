@@ -55,4 +55,15 @@ describe('env', () => {
       expect(env.isTrace()).toEqual(false);
     });
   });
+
+  describe('quiet', () => {
+    it('should return true', () => {
+      process.env.QUIET = 'true';
+      expect(env.isQuiet()).toEqual(true);
+    });
+
+    it('should return false', () => {
+      expect(env.isQuiet()).toEqual(false);
+    });
+  });
 });

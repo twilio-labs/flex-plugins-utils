@@ -35,8 +35,8 @@
     "clean": "rm -rf dist",
     "lint": "eslint --ext ts src/",
     "lint:fix": "npm run lint -- --fix",
-    "test": "jest --coverage --color",
-    "test:coverage": "jest --coverage --color --watchAll=false",
+    "test": "jest --color",
+    "test:coverage": "jest --coverage --color",
     "test:watch": "jest --watchAll --color"
   },
   "husky": {

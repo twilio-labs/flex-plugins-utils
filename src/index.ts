@@ -1,3 +1,5 @@
+/* eslint-disable import/no-unused-modules */
+
 import * as _boxen from './lib/boxen';
 
 const boxen = {
