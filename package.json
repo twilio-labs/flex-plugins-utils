@@ -37,6 +37,7 @@
     "lint:fix": "npm run lint -- --fix",
     "test": "jest --color",
     "test:coverage": "jest --coverage --color",
+    "test:ci": "jest --clearCache && jest --color --coverage",
     "test:watch": "jest --watchAll --color"
   },
   "husky": {
