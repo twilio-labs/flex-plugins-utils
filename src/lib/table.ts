@@ -2,8 +2,6 @@ import { table, TableUserConfig } from 'table';
 
 import logger from './logger';
 
-export default table;
-
 const config: TableUserConfig = {
   border: {
     topBody: '─',
@@ -67,4 +65,10 @@ export const printObjectArray = (data: object[]) => {
 
     printArray(header, rows);
   }
+};
+
+export default {
+  isRegularMatrix,
+  printArray,
+  printObjectArray,
 };
