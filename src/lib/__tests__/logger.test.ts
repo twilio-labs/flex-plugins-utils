@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-import * as logger from '../logger';
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires,  @typescript-eslint/ban-ts-ignore */
+import logger, { _logger } from '../logger';
 
 jest.mock('chalk');
 jest.mock('wrap-ansi');
@@ -44,7 +44,7 @@ describe('logger', () => {
   });
 
   it('should newline once', () => {
-    const logInfo = jest.spyOn(logger, 'info');
+    const logInfo = jest.spyOn(_logger, 'info');
 
     logger.newline();
 
@@ -54,7 +54,7 @@ describe('logger', () => {
   });
 
   it('should newline three times', () => {
-    const logInfo = jest.spyOn(logger, 'info');
+    const logInfo = jest.spyOn(_logger, 'info');
 
     logger.newline(3);
 
@@ -148,35 +148,35 @@ describe('logger', () => {
 
   describe('coloredStrings', () => {
     it('should call chalk blue', () => {
-      logger.default.coloredStrings.link('some-text');
+      logger.coloredStrings.link('some-text');
 
       expect(blue).toHaveBeenCalledTimes(1);
       expect(blue).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk green', () => {
-      logger.default.coloredStrings.headline('some-text');
+      logger.coloredStrings.headline('some-text');
 
       expect(boldGreen).toHaveBeenCalledTimes(1);
       expect(boldGreen).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk green', () => {
-      logger.default.coloredStrings.headline('some-text');
+      logger.coloredStrings.headline('some-text');
 
       expect(boldGreen).toHaveBeenCalledTimes(1);
       expect(boldGreen).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk bright magenta', () => {
-      logger.default.coloredStrings.name('some-text');
+      logger.coloredStrings.name('some-text');
 
       expect(magenta).toHaveBeenCalledTimes(1);
       expect(magenta).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk cyan', () => {
-      logger.default.coloredStrings.digit('some-text');
+      logger.coloredStrings.digit('some-text');
 
       expect(cyan).toHaveBeenCalledTimes(1);
       expect(cyan).toHaveBeenCalledWith('some-text');
@@ -196,6 +196,155 @@ describe('logger', () => {
 
       expect(wrapAnsi).toHaveBeenCalledTimes(1);
       expect(wrapAnsi).toHaveBeenCalledWith('input', 1, { hard: false });
+    });
+  });
+
+  describe('Logger', () => {
+    it('should use debug mode even if env var is not', () => {
+      delete process.env.DEBUG;
+      const instance = new logger.Logger({ isDebug: true });
+
+      instance.debug('var1', 'var2');
+
+      expect(info).toHaveBeenCalledTimes(1);
+      expect(info).toHaveBeenCalledWith('var1 var2');
+    });
+
+    it('should not use debug mode even if env var is', () => {
+      process.env.DEBUG = 'true';
+      const instance = new logger.Logger({ isDebug: false });
+
+      instance.debug('var1', 'var2');
+
+      expect(info).not.toHaveBeenCalled();
+    });
+
+    describe('isDebug', () => {
+      it('should return true from the option', () => {
+        delete process.env.DEBUG;
+        const instance = new logger.Logger({ isDebug: true });
+
+        // @ts-ignore
+        expect(instance.isDebug()).toEqual(true);
+      });
+
+      it('should return false from the option', () => {
+        process.env.DEBUG = 'true';
+        const instance = new logger.Logger({ isDebug: false });
+
+        // @ts-ignore
+        expect(instance.isDebug()).toEqual(false);
+      });
+
+      it('should return true from env var', () => {
+        process.env.DEBUG = 'true';
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isDebug()).toEqual(true);
+      });
+
+      it('should return false from env var', () => {
+        delete process.env.DEBUG;
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isDebug()).toEqual(false);
+      });
+    });
+
+    describe('isTrace', () => {
+      it('should return true from the option', () => {
+        delete process.env.TRACE;
+        const instance = new logger.Logger({ isTrace: true });
+
+        // @ts-ignore
+        expect(instance.isTrace()).toEqual(true);
+      });
+
+      it('should return false from the option', () => {
+        process.env.TRACE = 'true';
+        const instance = new logger.Logger({ isTrace: false });
+
+        // @ts-ignore
+        expect(instance.isTrace()).toEqual(false);
+      });
+
+      it('should return true from env var', () => {
+        process.env.TRACE = 'true';
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isTrace()).toEqual(true);
+      });
+
+      it('should return false from env var', () => {
+        delete process.env.TRACE;
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isTrace()).toEqual(false);
+      });
+    });
+
+    describe('isQuiet', () => {
+      it('should return true from the option', () => {
+        delete process.env.QUIET;
+        const instance = new logger.Logger({ isQuiet: true });
+
+        // @ts-ignore
+        expect(instance.isQuiet()).toEqual(true);
+      });
+
+      it('should return false from the option', () => {
+        process.env.QUIET = 'true';
+        const instance = new logger.Logger({ isQuiet: false });
+
+        // @ts-ignore
+        expect(instance.isQuiet()).toEqual(false);
+      });
+
+      it('should return true from env var', () => {
+        process.env.QUIET = 'true';
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isQuiet()).toEqual(true);
+      });
+
+      it('should return false from env var', () => {
+        delete process.env.QUIET;
+        const instance = new logger.Logger();
+
+        // @ts-ignore
+        expect(instance.isQuiet()).toEqual(false);
+      });
+    });
+
+    describe('_log', () => {
+      it('should not log if quiet and info level', () => {
+        const instance = new logger.Logger({ isQuiet: true });
+
+        // @ts-ignore
+        instance._log({ level: 'info', args: ['blah'] });
+        expect(info).not.toHaveBeenCalled();
+      });
+
+      it('should not log if quiet and warning level', () => {
+        const instance = new logger.Logger({ isQuiet: true });
+
+        // @ts-ignore
+        instance._log({ level: 'warn', args: ['blah'] });
+        expect(warn).not.toHaveBeenCalled();
+      });
+
+      it('should log even if quiet but error level', () => {
+        const instance = new logger.Logger({ isQuiet: true });
+
+        // @ts-ignore
+        instance._log({ level: 'error', args: ['blah'] });
+        expect(error).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });
