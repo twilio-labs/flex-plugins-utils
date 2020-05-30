@@ -2,7 +2,7 @@ import * as ora from 'ora';
 
 import env from './env';
 
-export type OraCallback<R> = () => R;
+export type Callback<R> = () => Promise<R>;
 
 interface OraOptions {
   text: string;
@@ -51,7 +51,7 @@ export const _getSpinner = (text: string, disabled: boolean): Progress => {
  * @param action  the callback to run
  * @param disabled force enable the progress
  */
-export const progress = async <R>(title: string, action: OraCallback<R>, disabled = env.isQuiet()): Promise<R> => {
+export const progress = async <R>(title: string, action: Callback<R>, disabled = env.isQuiet()): Promise<R> => {
   const spinner = _getSpinner(title, disabled);
 
   try {
