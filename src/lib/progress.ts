@@ -31,11 +31,12 @@ export const _getSpinner = (text: string, opts: Partial<OraOptions>) => {
  *
  * @param title   the title to show
  * @param action  the callback to run
- * @param opts    the ora options
+ * @param enabled force enable the progress
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const progress = async <R>(title: string, action: OraCallback<ora.Ora, any>, opts?: OraOptions): Promise<R> => {
-  const spinner = _getSpinner(title, opts || {});
+export const progress = async <R>(title: string, action: OraCallback<ora.Ora, any>, enabled?: boolean): Promise<R> => {
+  const opt = enabled === undefined ? {} : { isEnabled: true };
+  const spinner = _getSpinner(title, opt || {});
 
   try {
     spinner.start();
