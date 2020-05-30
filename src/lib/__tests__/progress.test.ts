@@ -23,7 +23,7 @@ describe('Progress', () => {
 
     const expectOraCalled = (spinner: any, callback: any) => {
       expect(ora._getSpinner).toHaveBeenCalledTimes(1);
-      expect(ora._getSpinner).toHaveBeenCalledWith(title, {});
+      expect(ora._getSpinner).toHaveBeenCalledWith(title, false);
       expect(callback).toHaveBeenCalledTimes(1);
       expect(callback).toHaveBeenCalledWith(spinner);
       expect(spinner.start).toHaveBeenCalledTimes(1);

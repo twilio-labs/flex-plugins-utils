@@ -2,24 +2,42 @@ import * as ora from 'ora';
 
 import env from './env';
 
-export type OraCallback<T, R> = (arg: T) => R;
+export type OraCallback<R> = () => R;
 
 interface OraOptions {
   text: string;
   isEnabled?: boolean;
 }
 
+interface Progress {
+  start: () => void;
+  succeed: () => void;
+  fail: (text?: string) => void;
+}
+
 /**
  * Added for testing purposes
  * @param title
- * @param options
+ * @param disabled
  */
 /* istanbul ignore next */
-export const _getSpinner = (text: string, opts: Partial<OraOptions>) => {
-  const options: OraOptions = { text, ...opts };
-  const enabledProvided = 'isEnabled' in opts;
-  const isVerboseOrQuiet = env.isDebug() || env.isTrace() || env.isQuiet();
-  if (!enabledProvided && isVerboseOrQuiet) {
+export const _getSpinner = (text: string, disabled: boolean): Progress => {
+  if (disabled) {
+    return {
+      start: () => {
+        // no-op
+      },
+      succeed: () => {
+        // no-op
+      },
+      fail: () => {
+        // no-op
+      },
+    };
+  }
+
+  const options: OraOptions = { text };
+  if (env.isDebug() || env.isTrace()) {
     options.isEnabled = false;
   }
 
@@ -31,16 +49,14 @@ export const _getSpinner = (text: string, opts: Partial<OraOptions>) => {
  *
  * @param title   the title to show
  * @param action  the callback to run
- * @param enabled force enable the progress
+ * @param disabled force enable the progress
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const progress = async <R>(title: string, action: OraCallback<ora.Ora, any>, enabled?: boolean): Promise<R> => {
-  const opt = enabled === undefined ? {} : { isEnabled: true };
-  const spinner = _getSpinner(title, opt || {});
+export const progress = async <R>(title: string, action: OraCallback<R>, disabled = env.isQuiet()): Promise<R> => {
+  const spinner = _getSpinner(title, disabled);
 
   try {
     spinner.start();
-    const response = await action(spinner);
+    const response = await action();
     spinner.succeed();
 
     return response;
