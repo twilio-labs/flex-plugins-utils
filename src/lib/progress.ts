@@ -12,11 +12,14 @@ interface OraOptions {
 /**
  * Added for testing purposes
  * @param title
+ * @param options
  */
 /* istanbul ignore next */
-export const _getSpinner = (text: string) => {
-  const options: OraOptions = { text };
-  if (env.isDebug() || env.isTrace() || env.isQuiet()) {
+export const _getSpinner = (text: string, opts: Partial<OraOptions>) => {
+  const options: OraOptions = { text, ...opts };
+  const enabledProvided = 'isEnabled' in opts;
+  const isVerboseOrQuiet = env.isDebug() || env.isTrace() || env.isQuiet();
+  if (!enabledProvided && isVerboseOrQuiet) {
     options.isEnabled = false;
   }
 
@@ -28,10 +31,11 @@ export const _getSpinner = (text: string) => {
  *
  * @param title   the title to show
  * @param action  the callback to run
+ * @param opts    the ora options
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const progress = async <R>(title: string, action: OraCallback<ora.Ora, any>): Promise<R> => {
-  const spinner = _getSpinner(title);
+export const progress = async <R>(title: string, action: OraCallback<ora.Ora, any>, opts?: OraOptions): Promise<R> => {
+  const spinner = _getSpinner(title, opts || {});
 
   try {
     spinner.start();
