@@ -27,7 +27,7 @@ export const _getSpinner = (text: string, opts: Partial<OraOptions>) => {
 };
 
 /**
- * Am {@link ora} progress wrapper
+ * An {@link ora} progress wrapper
  *
  * @param title   the title to show
  * @param action  the callback to run
