@@ -2,10 +2,11 @@ module.exports = {
   collectCoverage: false,
   preset: 'ts-jest',
   collectCoverageFrom: [
-    '<rootDir>/src/**/*.ts',
-    '!<rootDir>/src/index.ts'
+    '<rootDir>/packages/**/src/**/*.ts',
+    '!<rootDir>/packages/**/src/**/index.ts',
+    '!<rootDir>/packages/flex-plugins-api-utils/src/exceptions/*.ts',
   ],
-  testMatch: ['<rootDir>/src/**/*.test.ts'],
+  testMatch: ['<rootDir>/packages/**/*.test.ts'],
   transform: {
     '^.+\\.js?$': '<rootDir>/node_modules/babel-jest',
   },

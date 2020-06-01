@@ -1,43 +1,30 @@
 {
-  "name": "flex-plugins-utils-logger",
-  "version": "0.3.1",
-  "description": "Flex Plugins Logger",
-  "keywords": [
-    "flex",
-    "flex plugins",
-    "flex plugins logger"
-  ],
-  "homepage": "https://github.com/twilio/flex-plugins-utils-logger#readme",
+  "private": true,
+  "description": "Flex Plugins Utility Libraries",
+  "homepage": "https://github.com/twilio/flex-plugins-utils#readme",
   "bugs": {
-    "url": "https://github.com/twilio/flex-plugins-utils-logger/issues"
+    "url": "https://github.com/twilio/flex-plugins-utils/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/twilio/flex-plugins-utils-logger.git"
+    "url": "git+https://github.com/twilio/flex-plugins-utils.git"
   },
   "license": "MIT",
-  "author": "Kousha Talebian <k@ousha.me>",
   "contributors": [
     "Kousha Talebian <k@ousha.me>"
   ],
-  "files": [
-    "dist"
+  "workspaces": [
+    "packages/*"
   ],
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "directories": {
-    "lib": "src",
-    "test": "__tests__"
-  },
   "scripts": {
-    "prebuild": "npm run clean",
-    "build": "tsc",
-    "clean": "rm -rf dist",
-    "coverage": "codecov",
-    "lint": "eslint --ext ts src/",
-    "lint:fix": "npm run lint -- --fix",
+    "bootstrap": "lerna bootstrap --no-ci",
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "postinstall": "npm run bootstrap",
+    "lint": "lerna run lint",
+    "lint:fix": "lerna run lint:fix",
     "test": "jest --color",
-    "test:ci": "jest --clearCache && jest --color --coverage",
+    "test:ci": "jest --clearCache && jest --coverage --color",
     "test:watch": "jest --watchAll --color"
   },
   "husky": {
@@ -46,24 +33,16 @@
       "pre-push": "npm run test"
     }
   },
-  "dependencies": {
-    "boxen": "^4.1.0",
-    "chalk": "^4.0.0",
-    "log-symbols": "^3.0.0",
-    "ora": "^4.0.4",
-    "table": "^5.4.6",
-    "wrap-ansi": "^4.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^25.2.3",
-    "@types/node": "^14.0.5",
-    "@types/table": "^4.0.7",
-    "@types/wrap-ansi": "^3.0.0",
-    "codecov": "^3.7.0",
+    "@types/node": "^14.0.6",
     "eslint": "^7.1.0",
     "eslint-config-twilio-ts": "^1.23.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
-    "ts-jest": "^26.0.0"
+    "lerna": "^3.22.0",
+    "ts-jest": "^26.1.0",
+    "typescript": "^3.9.3"
   }
 }
