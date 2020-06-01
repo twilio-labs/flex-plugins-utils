@@ -4,7 +4,6 @@ module.exports = {
   collectCoverageFrom: [
     '<rootDir>/packages/**/src/**/*.ts',
     '!<rootDir>/packages/**/src/**/index.ts',
-    '!<rootDir>/packages/flex-plugins-api-utils/src/exceptions/*.ts',
   ],
   testMatch: ['<rootDir>/packages/**/*.test.ts'],
   transform: {
