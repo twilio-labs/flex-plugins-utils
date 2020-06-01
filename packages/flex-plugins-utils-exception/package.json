@@ -1,6 +1,6 @@
 {
   "name": "flex-plugins-utils-exception",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Flex Plugins Exceptions",
   "keywords": [
     "flex",
@@ -38,7 +38,5 @@
     "prepublish": "npm run build",
     "test": "cd ../.. && jest packages/flex-plugins-utils-exception",
     "test:watch": "cd ../.. && jest packages/flex-plugins-utils-exception --watch"
-  },
-  "dependencies": {
   }
 }
