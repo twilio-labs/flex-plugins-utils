@@ -23,7 +23,11 @@ describe('logger', () => {
   const boldGreen = jest.fn();
   const magenta = jest.fn();
   const cyan = jest.fn();
+  const bold = jest.fn();
+  const italic = jest.fn();
 
+  chalk.bold = bold;
+  chalk.italic = italic;
   chalk.cyan = cyan;
   chalk.bold.magenta = magenta;
   chalk.bold.green = boldGreen;
@@ -31,6 +35,7 @@ describe('logger', () => {
   chalk.yellow = yellow;
   chalk.blue = blue;
   chalk.green = green;
+  chalk.magenta = magenta;
 
   global.console.info = info;
   global.console.warn = warn;
@@ -41,6 +46,14 @@ describe('logger', () => {
     jest.resetModules();
 
     process.env = { ...OLD_ENV };
+
+    red.mockImplementation((msg) => msg);
+    yellow.mockImplementation((msg) => msg);
+    green.mockImplementation((msg) => msg);
+    cyan.mockImplementation((msg) => msg);
+    magenta.mockImplementation((msg) => msg);
+    bold.mockImplementation((msg) => msg);
+    italic.mockImplementation((msg) => msg);
   });
 
   it('should newline once', () => {
@@ -180,6 +193,52 @@ describe('logger', () => {
 
       expect(cyan).toHaveBeenCalledTimes(1);
       expect(cyan).toHaveBeenCalledWith('some-text');
+    });
+
+    describe('markdown', () => {
+      it('should not do anything if no markdown required', () => {
+        expect(logger.markdown()).toBeUndefined();
+        expect(logger.markdown('')).toEqual('');
+        expect(logger.markdown('text with no markdown')).toEqual('text with no markdown');
+
+        expect(bold).not.toHaveBeenCalled();
+        expect(italic).not.toHaveBeenCalled();
+        expect(magenta).not.toHaveBeenCalled();
+      });
+
+      it('should do just bold', () => {
+        expect(logger.markdown('text with **bold word** markdown')).toEqual('text with bold word markdown');
+
+        expect(bold).toHaveBeenCalledTimes(1);
+        expect(bold).toHaveBeenCalledWith('bold word');
+      });
+
+      it('should do just italic', () => {
+        expect(logger.markdown('text with *italic word* markdown')).toEqual('text with italic word markdown');
+
+        expect(italic).toHaveBeenCalledTimes(1);
+        expect(italic).toHaveBeenCalledWith('italic word');
+      });
+
+      it('should do italic and bold', () => {
+        expect(logger.markdown('text **with** *everything* and *anything* **that** can be')).toEqual(
+          'text with everything and anything that can be',
+        );
+
+        expect(bold).toHaveBeenCalledTimes(2);
+        expect(bold).toHaveBeenCalledWith('with');
+        expect(bold).toHaveBeenCalledWith('that');
+        expect(italic).toHaveBeenCalledTimes(2);
+        expect(italic).toHaveBeenCalledWith('everything');
+        expect(italic).toHaveBeenCalledWith('anything');
+      });
+
+      it('should do code syntax', () => {
+        expect(logger.markdown('text with {{code syntax}} markdown')).toEqual('text with code syntax markdown');
+
+        expect(magenta).toHaveBeenCalledTimes(1);
+        expect(magenta).toHaveBeenCalledWith('code syntax');
+      });
     });
   });
 

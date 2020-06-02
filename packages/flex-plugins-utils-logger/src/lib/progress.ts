@@ -1,6 +1,7 @@
 import * as ora from 'ora';
 
 import env from './env';
+import logger from './logger';
 
 export type Callback<R> = () => Promise<R>;
 
@@ -52,7 +53,7 @@ export const _getSpinner = (text: string, disabled: boolean): Progress => {
  * @param disabled force enable the progress
  */
 export const progress = async <R>(title: string, action: Callback<R>, disabled = env.isQuiet()): Promise<R> => {
-  const spinner = _getSpinner(title, disabled);
+  const spinner = _getSpinner(logger.markdown(title) || '', disabled);
 
   try {
     spinner.start();

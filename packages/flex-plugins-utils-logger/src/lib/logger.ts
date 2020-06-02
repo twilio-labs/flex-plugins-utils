@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any, prefer-named-capture-group */
 import { format } from 'util';
 
 import chalk from 'chalk';
 import wrapAnsi from 'wrap-ansi';
+import { pipe } from '@k88/pipe-compose';
 
 import env from './env';
 
@@ -22,6 +23,7 @@ interface LoggerOptions {
   isQuiet?: boolean;
   isDebug?: boolean;
   isTrace?: boolean;
+  markdown?: boolean;
 }
 
 // The default option for wrap-ansi
@@ -31,6 +33,18 @@ const DefaultWrapOptions = { hard: true };
  * The Logger class
  */
 class Logger {
+  private static boldRegexMatcher = /(?<=\*{2})(.*?)(?=\*{2})/;
+
+  private static boldRegexReplacer = /\*{2}(.*?)\*{2}/;
+
+  private static italicRegexMatcher = /(?<=\*)(.*?)(?=\*)/;
+
+  private static italicRegexReplacer = /\*(.*?)\*/;
+
+  private static codeRegexMatcher = /(?<=\{{2})(.*?)(?=\}{2})/;
+
+  private static codeRegexReplacer = /\{{2}(.*?)\}{2}/;
+
   private readonly options: LoggerOptions;
 
   constructor(options?: LoggerOptions) {
@@ -127,17 +141,45 @@ class Logger {
   };
 
   /**
+   * Provides basic markdown support. Currently supported bold **bold** and italic *italic*
+   * @param msg
+   */
+  public markdown = (msg?: string): string | undefined => {
+    if (!msg || msg === '') {
+      return msg;
+    }
+
+    const bold = msg.match(Logger.boldRegexMatcher);
+    if (bold) {
+      return this.markdown(msg.replace(Logger.boldRegexReplacer, chalk.bold(bold[0])));
+    }
+
+    const italic = msg.match(Logger.italicRegexMatcher);
+    if (italic) {
+      return this.markdown(msg.replace(Logger.italicRegexReplacer, chalk.italic(italic[0])));
+    }
+
+    const code = msg.match(Logger.codeRegexMatcher);
+    if (code) {
+      return this.markdown(msg.replace(Logger.codeRegexReplacer, chalk.magenta(code[0])));
+    }
+
+    return msg;
+  };
+
+  /**
    * The internal logger method
    * @param args
    * @private
    */
   private _log = (args: LogArg) => {
-    const color = args.color ? chalk[args.color] : null;
-    const msg = format.apply({}, args.args as any);
-
     if (!this.isQuiet() || args.level === 'error') {
       // eslint-disable-next-line no-console
-      console[args.level]((color && color(msg)) || msg);
+      const log = console[args.level];
+      const color = args.color ? chalk[args.color] : (msg: string) => msg;
+      const msg = format.apply({}, args.args as any);
+
+      pipe(msg, color, this.markdown, log);
     }
   };
 
@@ -188,7 +230,7 @@ const wrap = (input: string, columns: number, options = DefaultWrapOptions) => {
  * You can create an instance to overwrite default behavior.
  */
 export const _logger = new Logger();
-const { debug, info, warning, error, trace, success, newline, notice, installInfo, clearTerminal } = _logger;
+const { debug, info, warning, error, trace, success, newline, notice, installInfo, clearTerminal, markdown } = _logger;
 
 export default {
   debug,
@@ -201,6 +243,7 @@ export default {
   notice,
   installInfo,
   clearTerminal,
+  markdown,
   Logger,
   wrap,
   colors: chalk,
