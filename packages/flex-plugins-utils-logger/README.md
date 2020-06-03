@@ -45,7 +45,6 @@ Texts can be shown in yellow using `!!the text in yellow!!`.
 **error**
 
 Texts can be shown in red using `--the text in red--`.
-Texts can be shown in yellow using `!!the text in red!!`.
 
 **link**
 
