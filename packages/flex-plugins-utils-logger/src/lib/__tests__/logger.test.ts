@@ -1,13 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires,  @typescript-eslint/ban-ts-ignore */
 import logger, { _logger } from '../logger';
 
-jest.mock('chalk');
 jest.mock('wrap-ansi');
+jest.mock('chalk', () => {
+  const bold = jest.fn();
+  // @ts-ignore
+  bold.magenta = jest.fn();
+  // @ts-ignore
+  bold.green = jest.fn();
+
+  return {
+    bold,
+    italic: jest.fn(),
+    cyan: jest.fn(),
+    red: jest.fn(),
+    yellow: jest.fn(),
+    blue: jest.fn(),
+    green: jest.fn(),
+    magenta: jest.fn(),
+  };
+});
 
 const chalk = require('chalk');
 const wrapAnsi = require('wrap-ansi');
-
-chalk.bold = chalk.bold || {};
 
 describe('logger', () => {
   const OLD_ENV = process.env;
@@ -16,26 +31,16 @@ describe('logger', () => {
   const warn = jest.fn();
   const error = jest.fn();
 
-  const red = jest.fn();
-  const yellow = jest.fn();
-  const blue = jest.fn();
-  const green = jest.fn();
-  const boldGreen = jest.fn();
-  const magenta = jest.fn();
-  const cyan = jest.fn();
-  const bold = jest.fn();
-  const italic = jest.fn();
-
-  chalk.bold = bold;
-  chalk.italic = italic;
-  chalk.cyan = cyan;
-  chalk.bold.magenta = magenta;
-  chalk.bold.green = boldGreen;
-  chalk.red = red;
-  chalk.yellow = yellow;
-  chalk.blue = blue;
-  chalk.green = green;
-  chalk.magenta = magenta;
+  const bold = jest.spyOn(chalk, 'bold');
+  const boldGreen = jest.spyOn(chalk.bold, 'green');
+  const boldMagenta = jest.spyOn(chalk.bold, 'magenta');
+  const italic = jest.spyOn(chalk, 'italic');
+  const yellow = jest.spyOn(chalk, 'yellow');
+  const blue = jest.spyOn(chalk, 'blue');
+  const green = jest.spyOn(chalk, 'green');
+  const cyan = jest.spyOn(chalk, 'cyan');
+  const red = jest.spyOn(chalk, 'red');
+  const magenta = jest.spyOn(chalk, 'magenta');
 
   global.console.info = info;
   global.console.warn = warn;
@@ -51,7 +56,10 @@ describe('logger', () => {
     yellow.mockImplementation((msg) => msg);
     green.mockImplementation((msg) => msg);
     cyan.mockImplementation((msg) => msg);
+    blue.mockImplementation((msg) => msg);
     magenta.mockImplementation((msg) => msg);
+    boldMagenta.mockImplementation((msg) => msg);
+    boldGreen.mockImplementation((msg) => msg);
     bold.mockImplementation((msg) => msg);
     italic.mockImplementation((msg) => msg);
   });
@@ -184,8 +192,8 @@ describe('logger', () => {
     it('should call chalk bright magenta', () => {
       logger.coloredStrings.name('some-text');
 
-      expect(magenta).toHaveBeenCalledTimes(1);
-      expect(magenta).toHaveBeenCalledWith('some-text');
+      expect(boldMagenta).toHaveBeenCalledTimes(1);
+      expect(boldMagenta).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk cyan', () => {
@@ -238,6 +246,34 @@ describe('logger', () => {
 
         expect(magenta).toHaveBeenCalledTimes(1);
         expect(magenta).toHaveBeenCalledWith('code syntax');
+      });
+
+      it('should do link syntax', () => {
+        expect(logger.markdown('text with [[link syntax]] markdown')).toEqual('text with link syntax markdown');
+
+        expect(blue).toHaveBeenCalledTimes(1);
+        expect(blue).toHaveBeenCalledWith('link syntax');
+      });
+
+      it('should do success syntax', () => {
+        expect(logger.markdown('text with ++success syntax++ markdown')).toEqual('text with success syntax markdown');
+
+        expect(green).toHaveBeenCalledTimes(1);
+        expect(green).toHaveBeenCalledWith('success syntax');
+      });
+
+      it('should do error syntax', () => {
+        expect(logger.markdown('text with --error syntax-- markdown')).toEqual('text with error syntax markdown');
+
+        expect(red).toHaveBeenCalledTimes(1);
+        expect(red).toHaveBeenCalledWith('error syntax');
+      });
+
+      it('should do warning syntax', () => {
+        expect(logger.markdown('text with !!warning syntax!! markdown')).toEqual('text with warning syntax markdown');
+
+        expect(yellow).toHaveBeenCalledTimes(1);
+        expect(yellow).toHaveBeenCalledWith('warning syntax');
       });
     });
   });

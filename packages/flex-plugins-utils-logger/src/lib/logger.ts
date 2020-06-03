@@ -26,6 +26,14 @@ interface LoggerOptions {
   markdown?: boolean;
 }
 
+interface Formatter {
+  [key: string]: {
+    matcher: RegExp;
+    replacer: RegExp;
+    render: (msg: string) => string;
+  };
+}
+
 // The default option for wrap-ansi
 const DefaultWrapOptions = { hard: true };
 
@@ -33,19 +41,47 @@ const DefaultWrapOptions = { hard: true };
  * The Logger class
  */
 class Logger {
-  private static boldRegexMatcher = /(?<=\*{2})(.*?)(?=\*{2})/;
-
-  private static boldRegexReplacer = /\*{2}(.*?)\*{2}/;
-
-  private static italicRegexMatcher = /(?<=\*)(.*?)(?=\*)/;
-
-  private static italicRegexReplacer = /\*(.*?)\*/;
-
-  private static codeRegexMatcher = /(?<=\{{2})(.*?)(?=\}{2})/;
-
-  private static codeRegexReplacer = /\{{2}(.*?)\}{2}/;
+  private static formatter: Formatter = {
+    bold: {
+      matcher: /(?<=\*{2})(.*?)(?=\*{2})/,
+      replacer: /\*{2}(.*?)\*{2}/,
+      render: chalk.bold,
+    },
+    italic: {
+      matcher: /(?<=\*)(.*?)(?=\*)/,
+      replacer: /\*(.*?)\*/,
+      render: chalk.italic,
+    },
+    code: {
+      matcher: /(?<=\{{2})(.*?)(?=\}{2})/,
+      replacer: /\{{2}(.*?)\}{2}/,
+      render: chalk.magenta,
+    },
+    link: {
+      matcher: /(?<=\[{2})(.*?)(?=\]{2})/,
+      replacer: /\[{2}(.*?)\]{2}/,
+      render: chalk.blue,
+    },
+    success: {
+      matcher: /(?<=\+{2})(.*?)(?=\+{2})/,
+      replacer: /\+{2}(.*?)\+{2}/,
+      render: chalk.green,
+    },
+    warning: {
+      matcher: /(?<=\!{2})(.*?)(?=\!{2})/,
+      replacer: /\!{2}(.*?)\!{2}/,
+      render: chalk.yellow,
+    },
+    error: {
+      matcher: /(?<=\-{2})(.*?)(?=\-{2})/,
+      replacer: /\-{2}(.*?)\-{2}/,
+      render: chalk.red,
+    },
+  };
 
   private readonly options: LoggerOptions;
+
+  private bold = chalk.bold;
 
   constructor(options?: LoggerOptions) {
     this.options = options || {};
@@ -149,19 +185,14 @@ class Logger {
       return msg;
     }
 
-    const bold = msg.match(Logger.boldRegexMatcher);
-    if (bold) {
-      return this.markdown(msg.replace(Logger.boldRegexReplacer, chalk.bold(bold[0])));
-    }
-
-    const italic = msg.match(Logger.italicRegexMatcher);
-    if (italic) {
-      return this.markdown(msg.replace(Logger.italicRegexReplacer, chalk.italic(italic[0])));
-    }
-
-    const code = msg.match(Logger.codeRegexMatcher);
-    if (code) {
-      return this.markdown(msg.replace(Logger.codeRegexReplacer, chalk.magenta(code[0])));
+    for (const key in Logger.formatter) {
+      if (Logger.formatter.hasOwnProperty(key)) {
+        const formatter = Logger.formatter[key];
+        const match = msg.match(formatter.matcher);
+        if (match) {
+          return this.markdown(msg.replace(formatter.replacer, formatter.render(match[0])));
+        }
+      }
     }
 
     return msg;
