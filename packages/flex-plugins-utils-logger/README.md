@@ -36,23 +36,21 @@ Texts can be italicized using `*the text to italicize*`.
 
 **success**
 
-Texts can be show in green using `++the text in green++`.
+Texts can be shown in green using `++the text in green++`.
 
 **warning**
 
-Texts can be show in yellow using `!!the text in yellow!!`.
+Texts can be shown in yellow using `!!the text in yellow!!`.
 
 **error**
 
-Texts can be show in red using `--the text in red--`.
-Texts can be show in yellow using `!!the text in red!!`.
+Texts can be shown in red using `--the text in red--`.
+Texts can be shown in yellow using `!!the text in red!!`.
 
 **link**
 
-Texts can be show in blue using `[[the text in blue]]`.
+Texts can be shown in blue using `[[the text in blue]]`.
 
 **code**
 
-Texts can be show in magenta using `{{the text in blue}}`.
-
-
+Texts can be shown in magenta using `{{the text in blue}}`.
