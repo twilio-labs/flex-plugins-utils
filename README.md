@@ -3,11 +3,11 @@
 </p>
 
 <p align="center">
-    <a href="https://travis-ci.com/twilio/flex-plugin-builder">
-        <img src="https://travis-ci.com/twilio/flex-plugins-utils.svg?branch=master" title="Build Status" />
+    <a href="https://travis-ci.com/twilio-labs/flex-plugins-utils">
+        <img src="https://travis-ci.com/twilio-labs/flex-plugins-utils.svg?branch=master" title="Build Status" />
     </a>
-    <a href="https://codecov.io/gh/twilio/flex-plugin-builder">
-        <img src="https://codecov.io/gh/twilio/flex-plugins-utils/branch/master/graph/badge.svg" title="Code Coverage" />
+    <a href="https://codecov.io/gh/twilio-labs/flex-plugins-utils">
+        <img src="https://codecov.io/gh/twilio-labs/flex-plugins-utils/branch/master/graph/badge.svg" title="Code Coverage" />
     </a>
     <a href="#contributors">
         <img src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=square" title="All Contributors" />
