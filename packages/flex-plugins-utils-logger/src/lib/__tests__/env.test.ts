@@ -18,17 +18,6 @@ describe('env', () => {
     });
   });
 
-  describe('CI', () => {
-    it('should return true', () => {
-      process.env.CI = 'true';
-      expect(env.isCI()).toEqual(true);
-    });
-
-    it('should return false', () => {
-      expect(env.isCI()).toEqual(false);
-    });
-  });
-
   describe('debug', () => {
     it('should return true', () => {
       process.env.DEBUG = 'true';
