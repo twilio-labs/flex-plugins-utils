@@ -1,6 +1,6 @@
 {
   "name": "flex-plugins-utils-env",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Flex Plugins Environments",
   "keywords": [
     "flex",
@@ -38,7 +38,5 @@
     "prepublish": "npm run build",
     "test": "cd ../.. && jest packages/flex-plugins-utils-env",
     "test:watch": "cd ../.. && jest packages/flex-plugins-utils-env --watch"
-  },
-  "dependencies": {
   }
 }
