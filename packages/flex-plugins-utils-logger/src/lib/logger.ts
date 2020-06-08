@@ -4,8 +4,7 @@ import { format } from 'util';
 import chalk from 'chalk';
 import wrapAnsi from 'wrap-ansi';
 import { pipe } from '@k88/pipe-compose';
-
-import env from './env';
+import env from 'flex-plugins-utils-env';
 
 type Level = 'info' | 'error' | 'warn';
 type Color = 'red' | 'yellow' | 'green' | 'blue' | 'cyan';

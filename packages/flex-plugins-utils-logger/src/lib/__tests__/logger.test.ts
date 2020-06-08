@@ -2,6 +2,7 @@
 import logger, { _logger } from '../logger';
 
 jest.mock('wrap-ansi');
+jest.mock('flex-plugins-utils-env');
 jest.mock('chalk', () => {
   const bold = jest.fn();
   // @ts-ignore
@@ -23,10 +24,9 @@ jest.mock('chalk', () => {
 
 const chalk = require('chalk');
 const wrapAnsi = require('wrap-ansi');
+const env = require('flex-plugins-utils-env').default;
 
 describe('logger', () => {
-  const OLD_ENV = process.env;
-
   const info = jest.fn();
   const warn = jest.fn();
   const error = jest.fn();
@@ -49,8 +49,6 @@ describe('logger', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     jest.resetModules();
-
-    process.env = { ...OLD_ENV };
 
     red.mockImplementation((msg) => msg);
     yellow.mockImplementation((msg) => msg);
@@ -132,15 +130,7 @@ describe('logger', () => {
   });
 
   it('should call debug if debug is set', () => {
-    process.env.DEBUG = 'true';
-    logger.debug('var1', 'var2');
-
-    expect(info).toHaveBeenCalledTimes(1);
-    expect(info).toHaveBeenCalledWith('var1 var2');
-  });
-
-  it('should call debug if trace is set', () => {
-    process.env.TRACE = 'true';
+    jest.spyOn(env, 'isDebug').mockReturnValue(true);
     logger.debug('var1', 'var2');
 
     expect(info).toHaveBeenCalledTimes(1);
@@ -153,18 +143,18 @@ describe('logger', () => {
     expect(info).not.toHaveBeenCalled();
   });
 
-  it('should call trace if TRACE is set', () => {
-    process.env.TRACE = 'true';
-    logger.trace('var1', 'var2');
-
-    expect(info).toHaveBeenCalledTimes(1);
-    expect(info).toHaveBeenCalledWith('var1 var2');
-  });
-
   it('should not call trace if TRACE is not set', () => {
     logger.trace('var1', 'var2');
 
     expect(info).not.toHaveBeenCalled();
+  });
+
+  it('should call trace if TRACE is set', () => {
+    jest.spyOn(env, 'isTrace').mockReturnValue(true);
+    logger.trace('var1', 'var2');
+
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith('var1 var2');
   });
 
   describe('coloredStrings', () => {
@@ -296,123 +286,136 @@ describe('logger', () => {
 
   describe('Logger', () => {
     it('should use debug mode even if env var is not', () => {
-      delete process.env.DEBUG;
+      jest.spyOn(env, 'isDebug').mockReturnValue(false);
       const instance = new logger.Logger({ isDebug: true });
 
       instance.debug('var1', 'var2');
 
       expect(info).toHaveBeenCalledTimes(1);
       expect(info).toHaveBeenCalledWith('var1 var2');
+      expect(env.isDebug).not.toHaveBeenCalled();
     });
 
     it('should not use debug mode even if env var is', () => {
-      process.env.DEBUG = 'true';
+      jest.spyOn(env, 'isDebug').mockReturnValue(true);
       const instance = new logger.Logger({ isDebug: false });
 
       instance.debug('var1', 'var2');
 
       expect(info).not.toHaveBeenCalled();
+      expect(env.isDebug).not.toHaveBeenCalled();
     });
 
     describe('isDebug', () => {
       it('should return true from the option', () => {
-        delete process.env.DEBUG;
         const instance = new logger.Logger({ isDebug: true });
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(true);
+        expect(env.isDebug).not.toHaveBeenCalled();
       });
 
       it('should return false from the option', () => {
-        process.env.DEBUG = 'true';
+        jest.spyOn(env, 'isDebug').mockReturnValue(true);
         const instance = new logger.Logger({ isDebug: false });
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(false);
+        expect(env.isDebug).not.toHaveBeenCalled();
       });
 
       it('should return true from env var', () => {
-        process.env.DEBUG = 'true';
+        jest.spyOn(env, 'isDebug').mockReturnValue(true);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(true);
+        expect(env.isDebug).toHaveBeenCalledTimes(1);
       });
 
       it('should return false from env var', () => {
-        delete process.env.DEBUG;
+        jest.spyOn(env, 'isDebug').mockReturnValue(false);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(false);
+        expect(env.isDebug).toHaveBeenCalledTimes(1);
       });
     });
 
     describe('isTrace', () => {
       it('should return true from the option', () => {
-        delete process.env.TRACE;
+        jest.spyOn(env, 'isTrace').mockReturnValue(false);
         const instance = new logger.Logger({ isTrace: true });
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(true);
+        expect(env.isTrace).not.toHaveBeenCalled();
       });
 
       it('should return false from the option', () => {
-        process.env.TRACE = 'true';
+        jest.spyOn(env, 'isTrace').mockReturnValue(true);
         const instance = new logger.Logger({ isTrace: false });
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(false);
+        expect(env.isTrace).not.toHaveBeenCalled();
       });
 
       it('should return true from env var', () => {
-        process.env.TRACE = 'true';
+        jest.spyOn(env, 'isTrace').mockReturnValue(true);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(true);
+        expect(env.isTrace).toHaveBeenCalledTimes(1);
       });
 
       it('should return false from env var', () => {
-        delete process.env.TRACE;
+        jest.spyOn(env, 'isTrace').mockReturnValue(false);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(false);
+        expect(env.isTrace).toHaveBeenCalledTimes(1);
       });
     });
 
     describe('isQuiet', () => {
       it('should return true from the option', () => {
-        delete process.env.QUIET;
+        jest.spyOn(env, 'isQuiet').mockReturnValue(false);
         const instance = new logger.Logger({ isQuiet: true });
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(true);
+        expect(env.isQuiet).not.toHaveBeenCalled();
       });
 
       it('should return false from the option', () => {
-        process.env.QUIET = 'true';
+        jest.spyOn(env, 'isQuiet').mockReturnValue(true);
         const instance = new logger.Logger({ isQuiet: false });
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(false);
+        expect(env.isQuiet).not.toHaveBeenCalled();
       });
 
       it('should return true from env var', () => {
-        process.env.QUIET = 'true';
+        jest.spyOn(env, 'isQuiet').mockReturnValue(true);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(true);
+        expect(env.isQuiet).toHaveReturnedTimes(1);
       });
 
       it('should return false from env var', () => {
-        delete process.env.QUIET;
+        jest.spyOn(env, 'isQuiet').mockReturnValue(false);
         const instance = new logger.Logger();
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(false);
+        expect(env.isQuiet).toHaveReturnedTimes(1);
       });
     });
 
