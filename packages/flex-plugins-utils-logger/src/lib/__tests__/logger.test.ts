@@ -149,6 +149,14 @@ describe('logger', () => {
     expect(info).not.toHaveBeenCalled();
   });
 
+  it('should call trace if TRACE is set', () => {
+    jest.spyOn(env, 'isTrace').mockReturnValue(true);
+    logger.trace('var1', 'var2');
+
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith('var1 var2');
+  });
+
   describe('coloredStrings', () => {
     it('should call chalk blue', () => {
       logger.coloredStrings.link('some-text');

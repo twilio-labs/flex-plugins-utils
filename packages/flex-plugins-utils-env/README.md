@@ -14,15 +14,15 @@ Returns `true` if OS is Windows. It will return false if script is running on th
 
 ### persistTerminal
 
-If the module is used on a server, it will set the environment variable to persist the terminal logs.
+If the module is used on the server, it will set the environment variable to persist the terminal logs.
 
 ### isTerminalPersisted
 
-Whether the terminal should be persisted or not. Only works on a server.
+Whether the terminal should be persisted or not. Only works on the server.
 
 ### isQuiet
 
-Whether the scripts should be quiet (no logs). Only works on a server.
+Whether the scripts should be quiet (no logs). Only works on the server.
 
 ### isDebug
 
@@ -38,4 +38,4 @@ Returns the realm. Will use the process env if running on the server, otherwise 
 
 ### isCI
 
-Returns true if script running in CI. Works on the erver only.
+Returns true if script running in CI. Works on the server only.
