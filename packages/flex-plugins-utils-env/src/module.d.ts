@@ -5,6 +5,11 @@ interface Window {
         getInstance(): {
           configuration: {
             logLevel: string;
+            sdkOptions?: {
+              chat?: {
+                region?: string;
+              };
+            };
           };
         };
       };
