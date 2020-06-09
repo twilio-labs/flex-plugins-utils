@@ -70,11 +70,23 @@ const getRealm = () => {
     return process.env.REALM as Realm;
   }
 
-  if (window.location.href.indexOf('flex.stage.twilio')) {
-    return 'stage';
+  if (window.Twilio) {
+    const region = window.Twilio.Flex.Manager.getInstance().configuration.sdkOptions?.chat?.region || '';
+    if (region && region.indexOf('stage') !== -1) {
+      return 'stage';
+    }
+    if (region && region.indexOf('dev') !== -1) {
+      return 'dev';
+    }
+
+    return '';
   }
 
-  if (window.location.href.indexOf('flex.dev.twilio')) {
+  const { href } = window.location;
+  if (href && href.indexOf('flex.stage.twilio') !== -1) {
+    return 'stage';
+  }
+  if (href && href.indexOf('flex.dev.twilio') !== -1) {
     return 'dev';
   }
 
