@@ -1,3 +1,5 @@
+import get from 'lodash.get';
+
 export type Realm = 'dev' | 'stage';
 
 /* istanbul ignore next */
@@ -71,7 +73,7 @@ const getRealm = () => {
   }
 
   if (window.Twilio) {
-    const region = window.Twilio.Flex.Manager.getInstance().configuration.sdkOptions?.chat?.region || '';
+    const region = get(window.Twilio.Flex.Manager.getInstance(), 'configuration.sdkOptions.chat.region');
     if (region && region.indexOf('stage') !== -1) {
       return 'stage';
     }

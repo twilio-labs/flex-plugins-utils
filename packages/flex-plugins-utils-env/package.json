@@ -38,5 +38,9 @@
     "prepublish": "npm run build",
     "test": "cd ../.. && jest packages/flex-plugins-utils-env",
     "test:watch": "cd ../.. && jest packages/flex-plugins-utils-env --watch"
+  },
+  "dependencies": {
+    "@types/lodash.get": "^4.4.6",
+    "lodash.get": "^4.4.2"
   }
 }
