@@ -1,4 +1,3 @@
-import * as ora from 'ora';
 import env from 'flex-plugins-utils-env';
 
 import logger from './logger';
@@ -15,6 +14,20 @@ interface Progress {
   succeed: () => void;
   fail: (text?: string) => void;
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let ora: any = null;
+/* istanbul ignore next */
+const _getOra = () => {
+  if (ora) {
+    return ora;
+  }
+
+  // eslint-disable-next-line global-require, @typescript-eslint/no-require-imports
+  ora = require('ora');
+
+  return ora;
+};
 
 /**
  * Added for testing purposes
@@ -42,7 +55,7 @@ export const _getSpinner = (text: string, disabled: boolean): Progress => {
     options.isEnabled = false;
   }
 
-  return ora.default(options);
+  return _getOra()(options);
 };
 
 /**
