@@ -39,7 +39,7 @@ const DefaultWrapOptions = { hard: true };
 /**
  * The Logger class
  */
-class Logger {
+export class Logger {
   private static formatter: Formatter = {
     bold: {
       matcher: /(?<=\*{2})(.*?)(?=\*{2})/,
@@ -274,7 +274,6 @@ export default {
   installInfo,
   clearTerminal,
   markdown,
-  Logger,
   wrap,
   colors: chalk,
   coloredStrings: {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires,  @typescript-eslint/ban-ts-ignore */
-import logger, { _logger } from '../logger';
+import logger, { _logger, Logger } from '../logger';
 
 jest.mock('wrap-ansi');
 jest.mock('flex-plugins-utils-env');
@@ -287,7 +287,7 @@ describe('logger', () => {
   describe('Logger', () => {
     it('should use debug mode even if env var is not', () => {
       jest.spyOn(env, 'isDebug').mockReturnValue(false);
-      const instance = new logger.Logger({ isDebug: true });
+      const instance = new Logger({ isDebug: true });
 
       instance.debug('var1', 'var2');
 
@@ -298,7 +298,7 @@ describe('logger', () => {
 
     it('should not use debug mode even if env var is', () => {
       jest.spyOn(env, 'isDebug').mockReturnValue(true);
-      const instance = new logger.Logger({ isDebug: false });
+      const instance = new Logger({ isDebug: false });
 
       instance.debug('var1', 'var2');
 
@@ -308,7 +308,7 @@ describe('logger', () => {
 
     describe('isDebug', () => {
       it('should return true from the option', () => {
-        const instance = new logger.Logger({ isDebug: true });
+        const instance = new Logger({ isDebug: true });
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(true);
@@ -317,7 +317,7 @@ describe('logger', () => {
 
       it('should return false from the option', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(true);
-        const instance = new logger.Logger({ isDebug: false });
+        const instance = new Logger({ isDebug: false });
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(false);
@@ -326,7 +326,7 @@ describe('logger', () => {
 
       it('should return true from env var', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(true);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(true);
@@ -335,7 +335,7 @@ describe('logger', () => {
 
       it('should return false from env var', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(false);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isDebug()).toEqual(false);
@@ -346,7 +346,7 @@ describe('logger', () => {
     describe('isTrace', () => {
       it('should return true from the option', () => {
         jest.spyOn(env, 'isTrace').mockReturnValue(false);
-        const instance = new logger.Logger({ isTrace: true });
+        const instance = new Logger({ isTrace: true });
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(true);
@@ -355,7 +355,7 @@ describe('logger', () => {
 
       it('should return false from the option', () => {
         jest.spyOn(env, 'isTrace').mockReturnValue(true);
-        const instance = new logger.Logger({ isTrace: false });
+        const instance = new Logger({ isTrace: false });
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(false);
@@ -364,7 +364,7 @@ describe('logger', () => {
 
       it('should return true from env var', () => {
         jest.spyOn(env, 'isTrace').mockReturnValue(true);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(true);
@@ -373,7 +373,7 @@ describe('logger', () => {
 
       it('should return false from env var', () => {
         jest.spyOn(env, 'isTrace').mockReturnValue(false);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isTrace()).toEqual(false);
@@ -384,7 +384,7 @@ describe('logger', () => {
     describe('isQuiet', () => {
       it('should return true from the option', () => {
         jest.spyOn(env, 'isQuiet').mockReturnValue(false);
-        const instance = new logger.Logger({ isQuiet: true });
+        const instance = new Logger({ isQuiet: true });
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(true);
@@ -393,7 +393,7 @@ describe('logger', () => {
 
       it('should return false from the option', () => {
         jest.spyOn(env, 'isQuiet').mockReturnValue(true);
-        const instance = new logger.Logger({ isQuiet: false });
+        const instance = new Logger({ isQuiet: false });
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(false);
@@ -402,7 +402,7 @@ describe('logger', () => {
 
       it('should return true from env var', () => {
         jest.spyOn(env, 'isQuiet').mockReturnValue(true);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(true);
@@ -411,7 +411,7 @@ describe('logger', () => {
 
       it('should return false from env var', () => {
         jest.spyOn(env, 'isQuiet').mockReturnValue(false);
-        const instance = new logger.Logger();
+        const instance = new Logger();
 
         // @ts-ignore
         expect(instance.isQuiet()).toEqual(false);
@@ -421,7 +421,7 @@ describe('logger', () => {
 
     describe('_log', () => {
       it('should not log if quiet and info level', () => {
-        const instance = new logger.Logger({ isQuiet: true });
+        const instance = new Logger({ isQuiet: true });
 
         // @ts-ignore
         instance._log({ level: 'info', args: ['blah'] });
@@ -429,7 +429,7 @@ describe('logger', () => {
       });
 
       it('should not log if quiet and warning level', () => {
-        const instance = new logger.Logger({ isQuiet: true });
+        const instance = new Logger({ isQuiet: true });
 
         // @ts-ignore
         instance._log({ level: 'warn', args: ['blah'] });
@@ -437,7 +437,7 @@ describe('logger', () => {
       });
 
       it('should log even if quiet but error level', () => {
-        const instance = new logger.Logger({ isQuiet: true });
+        const instance = new Logger({ isQuiet: true });
 
         // @ts-ignore
         instance._log({ level: 'error', args: ['blah'] });

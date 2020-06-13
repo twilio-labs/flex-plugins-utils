@@ -9,6 +9,7 @@ const boxen = {
   print: _boxen.print,
 };
 
+export { default as Logger } from './lib/logger';
 export { default as logger } from './lib/logger';
 export { default as strings, multilineString, singleLineString } from './lib/strings';
 export { default as table, printArray, printObjectArray } from './lib/table';
