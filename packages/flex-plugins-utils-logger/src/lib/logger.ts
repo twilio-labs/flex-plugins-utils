@@ -27,8 +27,8 @@ interface LoggerOptions {
 
 interface Formatter {
   [key: string]: {
-    matcher: RegExp;
-    replacer: RegExp;
+    openChars: string;
+    closeChars: string;
     render: (msg: string) => string;
   };
 }
@@ -42,38 +42,38 @@ const DefaultWrapOptions = { hard: true };
 export class Logger {
   private static formatter: Formatter = {
     bold: {
-      matcher: /(?<=\*{2})(.*?)(?=\*{2})/,
-      replacer: /\*{2}(.*?)\*{2}/,
+      openChars: '\\*{2}',
+      closeChars: '\\*{2}',
       render: chalk.bold,
     },
     italic: {
-      matcher: /(?<=\*)(.*?)(?=\*)/,
-      replacer: /\*(.*?)\*/,
+      openChars: '\\*',
+      closeChars: '\\*',
       render: chalk.italic,
     },
     code: {
-      matcher: /(?<=\{{2})(.*?)(?=\}{2})/,
-      replacer: /\{{2}(.*?)\}{2}/,
+      openChars: '\\{{2}',
+      closeChars: '\\}{2}',
       render: chalk.magenta,
     },
     link: {
-      matcher: /(?<=\[{2})(.*?)(?=\]{2})/,
-      replacer: /\[{2}(.*?)\]{2}/,
+      openChars: '\\[{2}',
+      closeChars: '\\]{2}',
       render: chalk.blue,
     },
     success: {
-      matcher: /(?<=\+{2})(.*?)(?=\+{2})/,
-      replacer: /\+{2}(.*?)\+{2}/,
+      openChars: '\\+{2}',
+      closeChars: '\\+{2}',
       render: chalk.green,
     },
     warning: {
-      matcher: /(?<=\!{2})(.*?)(?=\!{2})/,
-      replacer: /\!{2}(.*?)\!{2}/,
+      openChars: '\\!{2}',
+      closeChars: '\\!{2}',
       render: chalk.yellow,
     },
     error: {
-      matcher: /(?<=\-{2})(.*?)(?=\-{2})/,
-      replacer: /\-{2}(.*?)\-{2}/,
+      openChars: '\\-{2}',
+      closeChars: '\\-{2}',
       render: chalk.red,
     },
   };
@@ -187,9 +187,14 @@ export class Logger {
     for (const key in Logger.formatter) {
       if (Logger.formatter.hasOwnProperty(key)) {
         const formatter = Logger.formatter[key];
-        const match = msg.match(formatter.matcher);
+        const regex = new RegExp(`${formatter.openChars}(.*?)${formatter.closeChars}`);
+        const match = msg.match(regex);
+
         if (match) {
-          return this.markdown(msg.replace(formatter.replacer, formatter.render(match[0])));
+          const replace = match[0]
+            .replace(new RegExp(formatter.openChars, 'g'), '')
+            .replace(new RegExp(formatter.closeChars, 'g'), '');
+          return this.markdown(msg.replace(regex, formatter.render(replace)));
         }
       }
     }
