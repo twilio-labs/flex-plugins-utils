@@ -17,17 +17,17 @@ export default class TwilioError extends Error {
    */
   public instanceOf = <T extends Error>(err: Constructable<T>): boolean => {
     // eslint-disable-next-line consistent-this, @typescript-eslint/no-this-alias
-    let instance = this;
-    while (instance && instance !== Object.prototype) {
-      if (!instance || !instance.constructor || !instance.constructor.name) {
+    let klass = this;
+    while (klass && klass !== Object.prototype) {
+      if (!klass || !klass.constructor || !klass.constructor.name) {
         return false;
       }
 
-      if (err.name === instance.constructor.name) {
+      if (err.name === klass.constructor.name) {
         return true;
       }
 
-      instance = Object.getPrototypeOf(instance);
+      klass = Object.getPrototypeOf(klass);
     }
 
     return false;
