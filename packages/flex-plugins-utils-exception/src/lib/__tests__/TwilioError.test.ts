@@ -1,4 +1,5 @@
 import TwilioError from '../TwilioError';
+import { TwilioApiError } from '../..';
 
 describe('TwilioError', () => {
   beforeEach(() => {
@@ -7,5 +8,27 @@ describe('TwilioError', () => {
 
   it('should be the error', () => {
     expect(new TwilioError()).toBeInstanceOf(TwilioError);
+  });
+
+  it('should return true for instanceOf', () => {
+    const apiError = new TwilioApiError(123, 'test', 123);
+    const error = new TwilioError();
+
+    expect(apiError.instanceOf(TwilioApiError)).toEqual(true);
+    expect(apiError.instanceOf(TwilioError)).toEqual(true);
+    expect(apiError.instanceOf(Error)).toEqual(true);
+
+    expect(error.instanceOf(TwilioError)).toEqual(true);
+    expect(error.instanceOf(Error)).toEqual(true);
+  });
+
+  it('should return false for instanceOf', () => {
+    class Foo extends Error {}
+
+    const apiError = new TwilioApiError(123, 'test', 123);
+    const error = new TwilioError();
+
+    expect(apiError.instanceOf(Foo)).toEqual(false);
+    expect(error.instanceOf(TwilioApiError)).toEqual(false);
   });
 });
