@@ -7,7 +7,7 @@ import { pipe } from '@k88/pipe-compose';
 import env from 'flex-plugins-utils-env';
 
 type Level = 'info' | 'error' | 'warn';
-type Color = 'red' | 'yellow' | 'green' | 'blue' | 'cyan';
+type Color = 'red' | 'yellow' | 'green' | 'cyan' | 'magenta';
 
 // LogLevels
 export type LogLevels = 'debug' | 'info' | 'warning' | 'error' | 'trace' | 'success';
@@ -59,7 +59,7 @@ export class Logger {
     link: {
       openChars: '\\[{2}',
       closeChars: '\\]{2}',
-      render: chalk.blue,
+      render: chalk.cyan,
     },
     success: {
       openChars: '\\+{2}',
@@ -139,11 +139,11 @@ export class Logger {
   };
 
   /**
-   * Notice log is info level with a cyan color
+   * Notice log is info level with a magenta color
    * @param args
    */
   public notice = (...args: any[]) => {
-    this._log({ level: 'info', color: 'cyan', args });
+    this._log({ level: 'info', color: 'magenta', args });
   };
 
   /**
@@ -282,9 +282,9 @@ export default {
   wrap,
   colors: chalk,
   coloredStrings: {
-    link: (str: string) => chalk.blue(str),
+    link: (str: string) => chalk.cyan(str),
     headline: (str: string) => chalk.bold.green(str),
     name: (str: string) => chalk.bold.magenta(str),
-    digit: (str: string) => chalk.cyan(str),
+    digit: (str: string) => chalk.magenta(str),
   },
 };
