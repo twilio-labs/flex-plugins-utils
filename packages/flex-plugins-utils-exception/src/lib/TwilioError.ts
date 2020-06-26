@@ -13,21 +13,21 @@ export default class TwilioError extends Error {
 
   /**
    * Returns whether this is the instance of the passed class
-   * @param err the error class to test for
+   * @param klass the error class to test for
    */
-  public instanceOf = <T extends Error>(err: Constructable<T>): boolean => {
+  public instanceOf = <T extends Error>(klass: Constructable<T>): boolean => {
     // eslint-disable-next-line consistent-this, @typescript-eslint/no-this-alias
-    let klass = this;
-    while (klass && klass !== Object.prototype) {
-      if (!klass || !klass.constructor || !klass.constructor.name) {
+    let instance = this;
+    while (instance && instance !== Object.prototype) {
+      if (!instance || !instance.constructor || !instance.constructor.name) {
         return false;
       }
 
-      if (err.name === klass.constructor.name) {
+      if (klass.name === instance.constructor.name) {
         return true;
       }
 
-      klass = Object.getPrototypeOf(klass);
+      instance = Object.getPrototypeOf(instance);
     }
 
     return false;
