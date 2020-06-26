@@ -161,8 +161,8 @@ describe('logger', () => {
     it('should call chalk blue', () => {
       logger.coloredStrings.link('some-text');
 
-      expect(blue).toHaveBeenCalledTimes(1);
-      expect(blue).toHaveBeenCalledWith('some-text');
+      expect(cyan).toHaveBeenCalledTimes(1);
+      expect(cyan).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk green', () => {
@@ -189,8 +189,8 @@ describe('logger', () => {
     it('should call chalk cyan', () => {
       logger.coloredStrings.digit('some-text');
 
-      expect(cyan).toHaveBeenCalledTimes(1);
-      expect(cyan).toHaveBeenCalledWith('some-text');
+      expect(magenta).toHaveBeenCalledTimes(1);
+      expect(magenta).toHaveBeenCalledWith('some-text');
     });
 
     describe('markdown', () => {
@@ -241,8 +241,8 @@ describe('logger', () => {
       it('should do link syntax', () => {
         expect(logger.markdown('text with [[link syntax]] markdown')).toEqual('text with link syntax markdown');
 
-        expect(blue).toHaveBeenCalledTimes(1);
-        expect(blue).toHaveBeenCalledWith('link syntax');
+        expect(cyan).toHaveBeenCalledTimes(1);
+        expect(cyan).toHaveBeenCalledWith('link syntax');
       });
 
       it('should do success syntax', () => {
