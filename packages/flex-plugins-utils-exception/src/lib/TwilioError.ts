@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, import/no-unused-modules
 export type Constructable<T> = new (...args: any[]) => T;
 
 /**
