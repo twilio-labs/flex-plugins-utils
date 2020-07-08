@@ -19,6 +19,7 @@ jest.mock('chalk', () => {
     blue: jest.fn(),
     green: jest.fn(),
     magenta: jest.fn(),
+    dim: jest.fn(),
   };
 });
 
@@ -41,6 +42,7 @@ describe('logger', () => {
   const cyan = jest.spyOn(chalk, 'cyan');
   const red = jest.spyOn(chalk, 'red');
   const magenta = jest.spyOn(chalk, 'magenta');
+  const dim = jest.spyOn(chalk, 'dim');
 
   global.console.info = info;
   global.console.warn = warn;
@@ -60,6 +62,7 @@ describe('logger', () => {
     boldGreen.mockImplementation((msg) => msg);
     bold.mockImplementation((msg) => msg);
     italic.mockImplementation((msg) => msg);
+    dim.mockImplementation((msg) => msg);
   });
 
   it('should newline once', () => {
@@ -264,6 +267,13 @@ describe('logger', () => {
 
         expect(yellow).toHaveBeenCalledTimes(1);
         expect(yellow).toHaveBeenCalledWith('warning syntax');
+      });
+
+      it('should do dim syntax', () => {
+        expect(logger.markdown('text in ..dim syntax.. markdown')).toEqual('text in dim syntax markdown');
+
+        expect(dim).toHaveBeenCalledTimes(1);
+        expect(dim).toHaveBeenCalledWith('dim syntax');
       });
     });
   });

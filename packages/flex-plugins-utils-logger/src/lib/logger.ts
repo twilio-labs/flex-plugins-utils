@@ -41,6 +41,11 @@ const DefaultWrapOptions = { hard: true };
  */
 export class Logger {
   private static formatter: Formatter = {
+    dim: {
+      openChars: '\\.{2}',
+      closeChars: '\\.{2}',
+      render: chalk.dim,
+    },
     bold: {
       openChars: '\\*{2}',
       closeChars: '\\*{2}',
