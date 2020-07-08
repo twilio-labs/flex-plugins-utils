@@ -52,4 +52,8 @@ Texts can be shown in blue using `[[the text in blue]]`.
 
 **code**
 
-Texts can be shown in magenta using `{{the text in blue}}`.
+Texts can be shown in magenta using `{{the text in magenta}}`.
+
+**dim**
+
+Texts can be shown in dim using `..the dim text..` 
