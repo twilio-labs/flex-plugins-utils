@@ -11,7 +11,7 @@ export default boxen;
  * @param level   the log level to display the message as
  * @param msg     the message
  */
-export const print = (level: LogLevels, msg: string) => {
+export const print = (level: LogLevels, msg: string): void => {
   const boxed = boxen(msg, {
     padding: 1,
     margin: 1,
@@ -26,7 +26,7 @@ export const print = (level: LogLevels, msg: string) => {
  * @param msg         the message to display
  * @param showSymbol  whether wrap the message in a warning symbol
  */
-export const warning = (msg: string, showSymbol: boolean = true) => {
+export const warning = (msg: string, showSymbol: boolean = true): void => {
   const sym = logSymbols.warning;
 
   if (showSymbol) {
@@ -42,7 +42,7 @@ export const warning = (msg: string, showSymbol: boolean = true) => {
  * @param msg         the message to display
  * @param showSymbol  whether wrap the message in an info symbol
  */
-export const info = (msg: string, showSymbol: boolean = true) => {
+export const info = (msg: string, showSymbol: boolean = true): void => {
   const sym = logSymbols.info;
 
   if (showSymbol) {
@@ -58,7 +58,7 @@ export const info = (msg: string, showSymbol: boolean = true) => {
  * @param msg         the message to display
  * @param showSymbol  whether wrap the message in an error symbol
  */
-export const error = (msg: string, showSymbol: boolean = true) => {
+export const error = (msg: string, showSymbol: boolean = true): void => {
   const sym = logSymbols.error;
 
   if (showSymbol) {
@@ -74,7 +74,7 @@ export const error = (msg: string, showSymbol: boolean = true) => {
  * @param msg         the message to display
  * @param showSymbol  whether wrap the message in a success symbol
  */
-export const success = (msg: string, showSymbol: boolean = true) => {
+export const success = (msg: string, showSymbol: boolean = true): void => {
   const sym = logSymbols.success;
 
   if (showSymbol) {

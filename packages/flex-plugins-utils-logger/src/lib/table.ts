@@ -30,7 +30,7 @@ const config: TableUserConfig = {
  *
  * @param matrix
  */
-export const isRegularMatrix = (matrix: string[][]) =>
+export const isRegularMatrix = (matrix: string[][]): boolean =>
   matrix && matrix.length > 0 && matrix[0].constructor === Array && matrix.every((r) => r.length === matrix[0].length);
 
 /**
@@ -39,7 +39,7 @@ export const isRegularMatrix = (matrix: string[][]) =>
  * @param header  the header of the table
  * @param data    the data entry to print
  */
-export const printArray = (header: string[], data: string[][]) => {
+export const printArray = (header: string[], data: string[][]): void => {
   if (!isRegularMatrix(data)) {
     logger.warning('Table rows are not all the same length; this may produce an irregular tabular view.');
   }
@@ -58,7 +58,8 @@ export const printArray = (header: string[], data: string[][]) => {
  *
  * @param data    the data entry to print
  */
-export const printObjectArray = (data: object[]) => {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const printObjectArray = (data: object[]): void => {
   if (data.length !== 0) {
     const header = Object.keys(data[0]);
     const rows = data.map(Object.values);

@@ -85,8 +85,6 @@ export class Logger {
 
   private readonly options: LoggerOptions;
 
-  private bold = chalk.bold;
-
   constructor(options?: LoggerOptions) {
     this.options = options || {};
   }
@@ -95,7 +93,7 @@ export class Logger {
    * debug level log
    * @param args
    */
-  public debug = (...args: any[]) => {
+  public debug = (...args: any[]): void => {
     if (this.isDebug()) {
       this._log({ level: 'info', args });
     }
@@ -105,7 +103,7 @@ export class Logger {
    * trace level trace
    * @param args
    */
-  public trace = (...args: any[]) => {
+  public trace = (...args: any[]): void => {
     if (this.isTrace()) {
       this._log({ level: 'info', args });
     }
@@ -115,7 +113,7 @@ export class Logger {
    * info level log
    * @param args
    */
-  public info = (...args: any[]) => {
+  public info = (...args: any[]): void => {
     this._log({ level: 'info', args });
   };
 
@@ -123,7 +121,7 @@ export class Logger {
    * success level log
    * @param args
    */
-  public success = (...args: any[]) => {
+  public success = (...args: any[]): void => {
     this._log({ level: 'info', color: 'green', args });
   };
 
@@ -131,7 +129,7 @@ export class Logger {
    * error level log
    * @param args
    */
-  public error = (...args: any[]) => {
+  public error = (...args: any[]): void => {
     this._log({ level: 'error', color: 'red', args });
   };
 
@@ -139,7 +137,7 @@ export class Logger {
    * warning level log
    * @param args
    */
-  public warning = (...args: any[]) => {
+  public warning = (...args: any[]): void => {
     this._log({ level: 'warn', color: 'yellow', args });
   };
 
@@ -147,7 +145,7 @@ export class Logger {
    * Notice log is info level with a magenta color
    * @param args
    */
-  public notice = (...args: any[]) => {
+  public notice = (...args: any[]): void => {
     this._log({ level: 'info', color: 'magenta', args });
   };
 
@@ -155,7 +153,7 @@ export class Logger {
    * Appends new line
    * @param lines the number of lines to append
    */
-  public newline = (lines: number = 1) => {
+  public newline = (lines: number = 1): void => {
     for (let i = 0; i < lines; i++) {
       this.info();
     }
@@ -166,7 +164,7 @@ export class Logger {
    * @param command the bash command
    * @param args  the remaining arguments
    */
-  public installInfo = (command: string, ...args: string[]) => {
+  public installInfo = (command: string, ...args: string[]): void => {
     this.info('\t', chalk.cyan(command), ...args);
   };
 
@@ -174,7 +172,7 @@ export class Logger {
    * Clears the terminal either if forced is provided, or if persist_terminal env is not set
    */
   /* istanbul ignore next */
-  public clearTerminal = (forced = false) => {
+  public clearTerminal = (forced = false): void => {
     if (forced || !env.isTerminalPersisted()) {
       process.stdout.write(env.isWin32() ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H');
     }
@@ -212,7 +210,7 @@ export class Logger {
    * @param args
    * @private
    */
-  private _log = (args: LogArg) => {
+  private _log = (args: LogArg): void => {
     if (!this.isQuiet() || args.level === 'error') {
       // eslint-disable-next-line no-console
       const log = console[args.level];
@@ -226,9 +224,9 @@ export class Logger {
   /**
    * Checks whether the logger is set for debug mode
    */
-  private isDebug = () => {
+  private isDebug = (): boolean => {
     if ('isDebug' in this.options) {
-      return this.options.isDebug;
+      return this.options.isDebug || false;
     }
 
     return env.isDebug();
@@ -237,17 +235,17 @@ export class Logger {
   /**
    * Checks whether the logger is set for trace mode
    */
-  private isTrace = () => {
+  private isTrace = (): boolean => {
     if ('isTrace' in this.options) {
-      return this.options.isTrace;
+      return this.options.isTrace || false;
     }
 
     return env.isTrace();
   };
 
-  private isQuiet = () => {
+  private isQuiet = (): boolean => {
     if ('isQuiet' in this.options) {
-      return this.options.isQuiet;
+      return this.options.isQuiet || false;
     }
 
     return env.isQuiet();
@@ -261,7 +259,7 @@ export class Logger {
  * @param columns   number of columns
  * @param options   options
  */
-const wrap = (input: string, columns: number, options = DefaultWrapOptions) => {
+const wrap = (input: string, columns: number, options = DefaultWrapOptions): string => {
   return wrapAnsi(input, columns, options);
 };
 
@@ -287,9 +285,9 @@ export default {
   wrap,
   colors: chalk,
   coloredStrings: {
-    link: (str: string) => chalk.cyan(str),
-    headline: (str: string) => chalk.bold.green(str),
-    name: (str: string) => chalk.bold.magenta(str),
-    digit: (str: string) => chalk.magenta(str),
+    link: (str: string): string => chalk.cyan(str),
+    headline: (str: string): string => chalk.bold.green(str),
+    name: (str: string): string => chalk.bold.magenta(str),
+    digit: (str: string): string => chalk.magenta(str),
   },
 };

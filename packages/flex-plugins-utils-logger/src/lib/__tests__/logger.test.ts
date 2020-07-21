@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires,  @typescript-eslint/ban-ts-ignore */
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
 import logger, { _logger, Logger } from '../logger';
 
 jest.mock('wrap-ansi');
