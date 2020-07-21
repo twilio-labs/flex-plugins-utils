@@ -3,18 +3,18 @@ import get from 'lodash.get';
 export type Realm = 'dev' | 'stage';
 
 /* istanbul ignore next */
-export const _isNode = () => typeof process === 'object' && `${process}` === '[object process]';
+export const _isNode = (): boolean => typeof process === 'object' && `${process}` === '[object process]';
 
 /* istanbul ignore next */
-const isWin32 = () => _isNode() && process.platform === 'win32';
+const isWin32 = (): boolean => _isNode() && process.platform === 'win32';
 
 /* istanbul ignore next */
-const isCI = () => _isNode() && process.env.CI === 'true';
+const isCI = (): boolean => _isNode() && process.env.CI === 'true';
 
 /**
  * Sets the environment to persist the terminal
  */
-const persistTerminal = () => {
+const persistTerminal = (): void => {
   if (_isNode()) {
     process.env.PERSIST_TERMINAL = 'true';
   }
@@ -23,17 +23,17 @@ const persistTerminal = () => {
 /**
  * Determines if the terminal should be persisted or not
  */
-const isTerminalPersisted = () => _isNode() && process.env.PERSIST_TERMINAL === 'true';
+const isTerminalPersisted = (): boolean => _isNode() && process.env.PERSIST_TERMINAL === 'true';
 
 /**
  * Determines whether script should run in quiet mode
  */
-const isQuiet = () => _isNode() && process.env.QUIET === 'true';
+const isQuiet = (): boolean => _isNode() && process.env.QUIET === 'true';
 
 /**
  * Determines if log level should be trace level
  */
-const isTrace = () => {
+const isTrace = (): boolean => {
   if (_isNode()) {
     return process.env.TRACE === 'true';
   }
@@ -48,7 +48,7 @@ const isTrace = () => {
 /**
  * Returns true if running in debug verbose mode
  */
-const isDebug = () => {
+const isDebug = (): boolean => {
   if (isTrace()) {
     return true;
   }
@@ -67,7 +67,7 @@ const isDebug = () => {
  * Returns the realm
  */
 /* istanbul ignore next */
-const getRealm = () => {
+const getRealm = (): Realm | string => {
   if (_isNode()) {
     return process.env.REALM as Realm;
   }
