@@ -1,7 +1,7 @@
 import { logger } from 'flex-plugins-utils-logger';
 
 // eslint-disable-next-line import/no-named-as-default
-import spawn from '../spawn';
+import * as spawnScripts from '../spawn';
 
 jest.mock('flex-plugins-utils-logger');
 jest.mock('execa');
@@ -11,34 +11,31 @@ const execa = require('execa');
 
 describe('spawn', () => {
   const args = ['arg1', 'arg2'];
+  const spawnResult = {
+    exitCode: 123,
+    stdout: 'the-stdout',
+    stderr: 'the-stderr',
+  };
 
   beforeEach(() => {
     jest.resetAllMocks();
-    jest.resetAllMocks();
+    jest.restoreAllMocks();
   });
 
   it('should exit correctly', async () => {
-    execa.mockResolvedValue({
-      exitCode: 123,
-      stdout: 'the-stdout',
-      stderr: 'the-stderr',
-    });
+    execa.mockResolvedValue(spawnResult);
 
-    const resp = await spawn('node', args);
+    const resp = await spawnScripts.default('node', args);
 
     expect(execa).toHaveBeenCalledTimes(1);
     expect(execa).toHaveBeenCalledWith('node', args, expect.any(Object));
-    expect(resp).toMatchObject({
-      exitCode: 123,
-      stdout: 'the-stdout',
-      stderr: 'the-stderr',
-    });
+    expect(resp).toMatchObject(spawnResult);
   });
 
   it('default values if nothing is returned', async () => {
     execa.mockResolvedValue({});
 
-    const resp = await spawn('node', args);
+    const resp = await spawnScripts.default('node', args);
 
     expect(execa).toHaveBeenCalledTimes(1);
     expect(execa).toHaveBeenCalledWith('node', args, expect.any(Object));
@@ -52,7 +49,7 @@ describe('spawn', () => {
   it('should log error if SIGKILL', async () => {
     execa.mockResolvedValue({ signal: 'SIGKILL' });
 
-    await spawn('node', args);
+    await spawnScripts.default('node', args);
 
     expect(logger.error).toHaveBeenCalledTimes(1);
   });
@@ -60,7 +57,7 @@ describe('spawn', () => {
   it('should log error if SIGTERM', async () => {
     execa.mockResolvedValue({ signal: 'SIGTERM' });
 
-    await spawn('node', args);
+    await spawnScripts.default('node', args);
 
     expect(logger.warning).toHaveBeenCalledTimes(1);
   });
@@ -70,7 +67,7 @@ describe('spawn', () => {
       throw new Error('some-error');
     });
 
-    const resp = await spawn('node', args);
+    const resp = await spawnScripts.default('node', args);
 
     expect(resp).toMatchObject({
       exitCode: 1,
@@ -84,12 +81,39 @@ describe('spawn', () => {
       throw new Error();
     });
 
-    const resp = await spawn('node', args);
+    const resp = await spawnScripts.default('node', args);
 
     expect(resp).toMatchObject({
       exitCode: 1,
       stdout: '',
       stderr: '',
     });
+  });
+
+  it('should spawn node', async () => {
+    execa.mockResolvedValue(spawnResult);
+
+    const resp = await spawnScripts.node(args);
+    expect(execa).toHaveBeenCalledTimes(1);
+    expect(execa).toHaveBeenCalledWith('node', args, expect.any(Object));
+    expect(resp).toMatchObject(spawnResult);
+  });
+
+  it('should spawn npm', async () => {
+    execa.mockResolvedValue(spawnResult);
+
+    const resp = await spawnScripts.npm(args);
+    expect(execa).toHaveBeenCalledTimes(1);
+    expect(execa).toHaveBeenCalledWith('npm', args, expect.any(Object));
+    expect(resp).toMatchObject(spawnResult);
+  });
+
+  it('should spawn yarn', async () => {
+    execa.mockResolvedValue(spawnResult);
+
+    const resp = await spawnScripts.yarn(args);
+    expect(execa).toHaveBeenCalledTimes(1);
+    expect(execa).toHaveBeenCalledWith('yarn', args, expect.any(Object));
+    expect(resp).toMatchObject(spawnResult);
   });
 });
