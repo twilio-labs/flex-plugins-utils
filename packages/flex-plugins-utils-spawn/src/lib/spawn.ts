@@ -75,7 +75,7 @@ export const npm = async (args: string[], options: object = DefaultOptions): Pro
   spawn('npm', args, options);
 
 /**
- * Spawns an yarn
+ * Spawns a yarn
  *
  * @param args      the spawn arguments
  * @param options   the spawn options

@@ -51,7 +51,7 @@ const { stdout, exitCode, stderr, stdout } = await spawn('npm', ['index.js', '--
 This is a wrapper that spawns a yarn process.
 
 ```js
-import { npm } from 'flex-plugins-utils-spawn';
+import { yarn } from 'flex-plugins-utils-spawn';
 
 const { stdout, exitCode, stderr, stdout } = await yarn(['index.js', '--name', 'test'], options);
 
