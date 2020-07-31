@@ -1,10 +1,9 @@
-/* eslint-disable import/no-unused-modules */
+/* eslint-disable import/no-unused-modules, @typescript-eslint/ban-types */
 
 import execa from 'execa';
 import { logger, singleLineString } from 'flex-plugins-utils-logger';
 
 const DefaultOptions = { stdio: 'inherit' };
-type ShellCmd = 'node' | 'yarn' | 'npm';
 
 interface SpawnReturn {
   exitCode: number;
@@ -15,12 +14,11 @@ interface SpawnReturn {
 /**
  * A wrapper for spawn
  *
- * @param shellCmd  the shell command node vs yarn to use
- * @param args      the node script spawn
- * @param options   the spawn argument
+ * @param cmd       the shell command node vs yarn to use
+ * @param args      the spawn arguments
+ * @param options   the spawn options
  */
-// eslint-disable-next-line  @typescript-eslint/ban-types
-export const spawn = async (cmd: ShellCmd, args: string[], options: object = DefaultOptions): Promise<SpawnReturn> => {
+export const spawn = async (cmd: string, args: string[], options: object = DefaultOptions): Promise<SpawnReturn> => {
   const spawnOptions = { ...{ shell: process.env.SHELL }, ...options };
 
   try {
@@ -57,5 +55,32 @@ export const spawn = async (cmd: ShellCmd, args: string[], options: object = Def
     };
   }
 };
+
+/**
+ * Spawns a node
+ *
+ * @param args      the spawn arguments
+ * @param options   the spawn options
+ */
+export const node = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
+  spawn('node', args, options);
+
+/**
+ * Spawns an npm
+ *
+ * @param args      the spawn arguments
+ * @param options   the spawn options
+ */
+export const npm = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
+  spawn('npm', args, options);
+
+/**
+ * Spawns an yarn
+ *
+ * @param args      the spawn arguments
+ * @param options   the spawn options
+ */
+export const yarn = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
+  spawn('yarn', args, options);
 
 export default spawn;
