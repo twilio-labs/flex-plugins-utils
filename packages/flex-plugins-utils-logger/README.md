@@ -48,7 +48,11 @@ Texts can be shown in red using `--the text in red--`.
 
 **link**
 
-Texts can be shown in blue using `[[the text in blue]]`.
+Texts can be shown in cyan using `[[the text in cyan]]`.
+
+**info**
+
+Texts can be shown in blue using `@@the text in blue@@`.
 
 **code**
 

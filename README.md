@@ -27,7 +27,10 @@
 
 This is a monorepo project managed by [lerna](https://github.com/lerna/lerna):
 
+- [flex-plugins-utils-env](packages/flex-plugins-utils-env): Environments
+- [flex-plugins-utils-exception](packages/flex-plugins-utils-exception): Exceptions
 - [flex-plugins-utils-logger](packages/flex-plugins-utils-logger): Logger utility
+- [flex-plugins-utils-spawn](packages/flex-plugins-utils-spawn): Spawn utility
 
 ## Changelog
 

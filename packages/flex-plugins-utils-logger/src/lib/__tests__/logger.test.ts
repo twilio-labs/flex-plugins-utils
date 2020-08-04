@@ -275,6 +275,13 @@ describe('logger', () => {
         expect(dim).toHaveBeenCalledTimes(1);
         expect(dim).toHaveBeenCalledWith('dim syntax');
       });
+
+      it('should do info syntax', () => {
+        expect(logger.markdown('text in @@info syntax@@ markdown')).toEqual('text in info syntax markdown');
+
+        expect(blue).toHaveBeenCalledTimes(1);
+        expect(blue).toHaveBeenCalledWith('info syntax');
+      });
     });
   });
 

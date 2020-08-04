@@ -66,6 +66,11 @@ export class Logger {
       closeChars: '\\]{2}',
       render: chalk.cyan,
     },
+    info: {
+      openChars: '@{2}',
+      closeChars: '@{2}',
+      render: chalk.blue,
+    },
     success: {
       openChars: '\\+{2}',
       closeChars: '\\+{2}',
