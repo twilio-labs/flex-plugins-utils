@@ -1,3 +1,3 @@
 /* eslint-disable import/no-unused-modules */
 
-export { default } from './lib/spawn';
+export { node, npm, yarn, default, spawn, SpawnReturn } from './lib/spawn';

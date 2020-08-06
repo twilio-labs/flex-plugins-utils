@@ -5,7 +5,7 @@ import { logger, singleLineString } from 'flex-plugins-utils-logger';
 
 const DefaultOptions = { stdio: 'inherit' };
 
-interface SpawnReturn {
+export interface SpawnReturn {
   exitCode: number;
   stdout: string;
   stderr: string;
