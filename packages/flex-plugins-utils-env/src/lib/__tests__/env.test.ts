@@ -33,7 +33,7 @@ describe('env', () => {
     });
 
     it('should not set env if not node', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       delete process.env.PERSIST_TERMINAL;
       env.persistTerminal();
 
@@ -68,21 +68,21 @@ describe('env', () => {
     });
 
     it('should return true because twilio config is set', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       manager.configuration.logLevel = 'debug';
 
       expect(env.isDebug()).toEqual(true);
     });
 
     it('should return false because twilio config is set', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       manager.configuration.logLevel = 'info';
 
       expect(env.isDebug()).toEqual(false);
     });
 
     it('should return false because no twilio env is st', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (window as any).Twilio;
 
@@ -101,21 +101,21 @@ describe('env', () => {
     });
 
     it('should return true because twilio config is set', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       manager.configuration.logLevel = 'trace';
 
       expect(env.isTrace()).toEqual(true);
     });
 
     it('should return false because twilio config is set', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       manager.configuration.logLevel = 'info';
 
       expect(env.isTrace()).toEqual(false);
     });
 
     it('should return false because no twilio env is st', () => {
-      jest.spyOn(allEnv, '_isNode').mockReturnValue(false);
+      jest.spyOn(allEnv, 'isNode').mockReturnValue(false);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       delete (window as any).Twilio;
 
