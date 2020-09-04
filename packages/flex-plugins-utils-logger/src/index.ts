@@ -14,4 +14,5 @@ export { default as logger } from './lib/logger';
 export { default as strings, multilineString, singleLineString } from './lib/strings';
 export { default as table, printArray, printObjectArray } from './lib/table';
 export { default as progress } from './lib/progress';
+export { default as inquirer, confirm, prompt, choose } from './lib/inquirer';
 export { boxen };
