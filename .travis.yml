@@ -16,6 +16,7 @@ branches:
   except:
     - /^v\d+\.\d+\.\d+$/
   only:
-    - master
+    - main
     - next
     - dev
+    - beta
