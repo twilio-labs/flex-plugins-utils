@@ -55,15 +55,15 @@ describe('inquirer', () => {
   });
 
   describe('_validateConfirmation', () => {
-    it('should valid false if no default and no answer provided', async () => {
+    it('should return error message if no default and no answer provided', async () => {
       expect(await inquirerScripts._validateConfirmation()('')).toEqual(expect.any(String));
     });
 
-    it('should valid false if incorrect answer is provided', async () => {
+    it('should return error message if incorrect answer is provided', async () => {
       expect(await inquirerScripts._validateConfirmation()('blah')).toEqual(expect.any(String));
     });
 
-    it('should valid truthy if answer is correct', async () => {
+    it('should validate truthy if answer is correct', async () => {
       expect(await inquirerScripts._validateConfirmation()('yes')).toBeTruthy();
       expect(await inquirerScripts._validateConfirmation()('YeS')).toBeTruthy();
       expect(await inquirerScripts._validateConfirmation()('y')).toBeTruthy();
