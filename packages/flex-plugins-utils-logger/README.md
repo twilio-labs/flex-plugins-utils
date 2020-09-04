@@ -60,4 +60,31 @@ Texts can be shown in magenta using `{{the text in magenta}}`.
 
 **dim**
 
-Texts can be shown in dim using `..the dim text..` 
+Texts can be shown in dim using `..the dim text..`
+
+### Inquirer
+
+This package provides 3 main methods:
+
+#### const prompt = async (question: Question): Promise<Question['name']>
+
+Prompts the user to answer the question. Upon validation, returns the answer. `Question` interface is defined as
+
+```typescript
+export interface Question {
+  name: string;
+  message: string;
+  type?: 'list' | 'input' | 'password';
+  validate?(input: string): boolean | string | Promise<boolean | string>;
+}
+```
+
+#### const confirm = async (question: string, defaultAnswer?: YNAnswer): Promise<boolean>
+
+Provides a confirmation prompt. The response is a Promise<boolean> with `true` resolving to successful confirmation, and `false` being the rejected confirmation. The `YNAnswer` is `'Y' | 'N'`.
+
+#### const choose = async (question: Question, choices: string[]): Promise<Question['name']>;
+
+Prompts the user to select from one of the choices.
+
+
