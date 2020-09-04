@@ -3,7 +3,7 @@ import get from 'lodash.get';
 export type Realm = 'dev' | 'stage';
 
 /* istanbul ignore next */
-const isNode = (): boolean => typeof process === 'object' && `${process}` === '[object process]';
+export const isNode = (): boolean => typeof process === 'object' && `${process}` === '[object process]';
 
 /* istanbul ignore next */
 const isWin32 = (): boolean => isNode() && process.platform === 'win32';
@@ -104,5 +104,4 @@ export default {
   isTrace,
   getRealm,
   isCI,
-  isNode,
 };
