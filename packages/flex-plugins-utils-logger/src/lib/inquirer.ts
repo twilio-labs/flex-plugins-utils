@@ -51,11 +51,11 @@ export const prompt = async (question: Question): Promise<Question['name']> => {
  * @param defaultAnswer the default answer, can be Y or N
  */
 export const confirm = async (question: string, defaultAnswer?: YNAnswer): Promise<boolean> => {
-  let suffix = '(yn)';
+  let suffix = '(y/n)';
   if (defaultAnswer === 'Y') {
-    suffix = '(Yn)';
+    suffix = '(Y/n)';
   } else if (defaultAnswer === 'N') {
-    suffix = '(yN)';
+    suffix = '(y/N)';
   }
 
   const q: Question = {
