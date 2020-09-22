@@ -282,6 +282,14 @@ describe('logger', () => {
         expect(blue).toHaveBeenCalledTimes(1);
         expect(blue).toHaveBeenCalledWith('info syntax');
       });
+
+      it('should escape characters', () => {
+        expect(logger.markdown('text with \\-\\-escaped error\\-\\- markdown')).toEqual(
+          'text with --escaped error-- markdown',
+        );
+
+        expect(red).not.toHaveBeenCalled();
+      });
     });
   });
 
