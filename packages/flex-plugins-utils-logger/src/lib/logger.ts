@@ -207,7 +207,7 @@ export class Logger {
       }
     }
 
-    return msg;
+    return msg.replace(/\\/g, '');
   };
 
   /**
