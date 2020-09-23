@@ -1,6 +1,6 @@
 {
   "name": "flex-plugins-utils-logger",
-  "version": "0.15.1",
+  "version": "0.16.0",
   "description": "Flex Plugins Logger",
   "keywords": [
     "flex",
@@ -43,7 +43,7 @@
     "@k88/pipe-compose": "^2.2.0",
     "boxen": "^4.1.0",
     "chalk": "^4.1.0",
-    "flex-plugins-utils-env": "^0.15.0",
+    "flex-plugins-utils-env": "^0.16.0",
     "inquirer": "7.3.3",
     "log-symbols": "^3.0.0",
     "ora": "^4.0.5",
