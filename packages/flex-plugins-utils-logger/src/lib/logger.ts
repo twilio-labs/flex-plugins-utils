@@ -36,6 +36,21 @@ interface Formatter {
 // The default option for wrap-ansi
 const DefaultWrapOptions = { hard: true };
 
+export const coloredStrings = {
+  dim: chalk.dim,
+  bold: chalk.bold,
+  italic: chalk.italic,
+  code: chalk.magenta,
+  link: chalk.cyan,
+  info: chalk.blue,
+  success: chalk.green,
+  warning: chalk.yellow,
+  error: chalk.red,
+  headline: chalk.bold.green,
+  name: chalk.bold.magenta,
+  digit: chalk.magenta,
+};
+
 /**
  * The Logger class
  */
@@ -44,47 +59,47 @@ export class Logger {
     dim: {
       openChars: '\\.{2}',
       closeChars: '\\.{2}',
-      render: chalk.dim,
+      render: coloredStrings.dim,
     },
     bold: {
       openChars: '\\*{2}',
       closeChars: '\\*{2}',
-      render: chalk.bold,
+      render: coloredStrings.bold,
     },
     italic: {
       openChars: '\\*',
       closeChars: '\\*',
-      render: chalk.italic,
+      render: coloredStrings.italic,
     },
     code: {
       openChars: '\\{{2}',
       closeChars: '\\}{2}',
-      render: chalk.magenta,
+      render: coloredStrings.code,
     },
     link: {
       openChars: '\\[{2}',
       closeChars: '\\]{2}',
-      render: chalk.cyan,
+      render: coloredStrings.link,
     },
     info: {
       openChars: '@{2}',
       closeChars: '@{2}',
-      render: chalk.blue,
+      render: coloredStrings.info,
     },
     success: {
       openChars: '\\+{2}',
       closeChars: '\\+{2}',
-      render: chalk.green,
+      render: coloredStrings.success,
     },
     warning: {
       openChars: '\\!{2}',
       closeChars: '\\!{2}',
-      render: chalk.yellow,
+      render: coloredStrings.warning,
     },
     error: {
       openChars: '\\-{2}',
       closeChars: '\\-{2}',
-      render: chalk.red,
+      render: coloredStrings.error,
     },
   };
 
@@ -289,10 +304,5 @@ export default {
   markdown,
   wrap,
   colors: chalk,
-  coloredStrings: {
-    link: (str: string): string => chalk.cyan(str),
-    headline: (str: string): string => chalk.bold.green(str),
-    name: (str: string): string => chalk.bold.magenta(str),
-    digit: (str: string): string => chalk.magenta(str),
-  },
+  coloredStrings,
 };

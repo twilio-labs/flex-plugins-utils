@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-require-imports, @typescript-eslint/no-var-requires */
-import logger, { _logger, Logger } from '../logger';
+import logger, { _logger, Logger, coloredStrings } from '../logger';
 
 jest.mock('wrap-ansi');
 jest.mock('flex-plugins-utils-env');
@@ -162,35 +162,35 @@ describe('logger', () => {
 
   describe('coloredStrings', () => {
     it('should call chalk blue', () => {
-      logger.coloredStrings.link('some-text');
+      coloredStrings.link('some-text');
 
       expect(cyan).toHaveBeenCalledTimes(1);
       expect(cyan).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk green', () => {
-      logger.coloredStrings.headline('some-text');
+      coloredStrings.headline('some-text');
 
       expect(boldGreen).toHaveBeenCalledTimes(1);
       expect(boldGreen).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk green', () => {
-      logger.coloredStrings.headline('some-text');
+      coloredStrings.headline('some-text');
 
       expect(boldGreen).toHaveBeenCalledTimes(1);
       expect(boldGreen).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk bright magenta', () => {
-      logger.coloredStrings.name('some-text');
+      coloredStrings.name('some-text');
 
       expect(boldMagenta).toHaveBeenCalledTimes(1);
       expect(boldMagenta).toHaveBeenCalledWith('some-text');
     });
 
     it('should call chalk cyan', () => {
-      logger.coloredStrings.digit('some-text');
+      coloredStrings.digit('some-text');
 
       expect(magenta).toHaveBeenCalledTimes(1);
       expect(magenta).toHaveBeenCalledWith('some-text');
