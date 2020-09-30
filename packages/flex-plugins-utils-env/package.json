@@ -41,8 +41,5 @@
   },
   "dependencies": {
     "lodash.get": "^4.4.2"
-  },
-  "devDependencies": {
-    "@types/lodash.get": "^4.4.6"
   }
 }
