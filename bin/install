@@ -1,0 +1,12 @@
+#!/bin/bash
+
+## A faster installer (roughly 30%) that uses https://github.com/folke/ultra-runner and hoisted devDependencies
+
+if ! command -v ultra &> /dev/null
+then
+    echo "ultra-runner is not installed; install using 'npm install ultra-runner -D'"
+    exit 1
+fi
+
+npm i --ignore-scripts
+ultra build

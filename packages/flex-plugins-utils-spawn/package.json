@@ -41,6 +41,6 @@
   },
   "dependencies": {
     "execa": "^4.0.3",
-    "flex-plugins-utils-logger": "^0.16.2"
+    "flex-plugins-utils-logger": "file:../flex-plugins-utils-logger"
   }
 }

@@ -1,4 +1,5 @@
 {
+  "name": "flex-plugins-utils",
   "private": true,
   "description": "Flex Plugins Utility Libraries",
   "homepage": "https://github.com/twilio/flex-plugins-utils#readme",
@@ -17,10 +18,9 @@
     "packages/*"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap --no-ci",
     "build": "lerna run build",
     "clean": "lerna run clean",
-    "postinstall": "npm run bootstrap",
+    "postinstall": "lerna bootstrap --no-ci",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "publish:next": "bin/publish",
@@ -35,10 +35,18 @@
       "pre-push": "npm run test"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "flex-plugins-utils-env": "file:packages/flex-plugins-utils-env",
+    "flex-plugins-utils-exception": "file:packages/flex-plugins-utils-exception",
+    "flex-plugins-utils-logger": "file:packages/flex-plugins-utils-logger",
+    "flex-plugins-utils-spawn": "file:packages/flex-plugins-utils-spawn"
+  },
   "devDependencies": {
+    "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.14",
     "@types/node": "^14.11.2",
+    "@types/table": "^4.0.7",
+    "@types/wrap-ansi": "^3.0.0",
     "codecov": "^3.7.2",
     "eslint": "^7.9.0",
     "eslint-config-twilio-ts": "^1.29.1",
