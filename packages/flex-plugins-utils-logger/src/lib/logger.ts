@@ -5,9 +5,16 @@ import chalk from 'chalk';
 import wrapAnsi from 'wrap-ansi';
 import { pipe } from '@k88/pipe-compose';
 import env from 'flex-plugins-utils-env';
+import stringWidth from 'string-width';
+
+import columnify from './columnify';
 
 type Level = 'info' | 'error' | 'warn';
 type Color = 'red' | 'yellow' | 'green' | 'cyan' | 'magenta';
+
+interface ColumnsOptions {
+  indent?: boolean;
+}
 
 // LogLevels
 export type LogLevels = 'debug' | 'info' | 'warning' | 'error' | 'trace' | 'success';
@@ -170,6 +177,48 @@ export class Logger {
   };
 
   /**
+   * Simple wrapper for column printing
+   * @param lines
+   */
+  public columns = (lines: string[][], options?: ColumnsOptions) => {
+    const minWidths = Array(lines[0].length).fill(0);
+    lines.forEach((line) => {
+      line.forEach((entry, index) => {
+        minWidths[index] = Math.max(minWidths[index], stringWidth(entry));
+      });
+    });
+
+    // Convert array to object
+    const data = lines.map((line) => {
+      return line.reduce((accum, entry, index) => {
+        accum[`entry${index}`] = entry;
+
+        return accum;
+      }, {});
+    });
+
+    // create the configuration
+    const config = minWidths.reduce((accum, minWidth, index) => {
+      if (index < minWidths.length - 1) {
+        minWidth += 5;
+      }
+      accum[`entry${index}`] = { minWidth };
+
+      return accum;
+    }, {});
+
+    let cols = columnify(data, { showHeaders: false, config });
+    if (options?.indent) {
+      cols = cols
+        .split('\n')
+        .map((entry) => `\t${entry}`)
+        .join('\n');
+    }
+
+    this._log({ level: 'info', args: [cols] });
+  };
+
+  /**
    * Appends new line
    * @param lines the number of lines to append
    */
@@ -288,7 +337,20 @@ const wrap = (input: string, columns: number, options = DefaultWrapOptions): str
  * You can create an instance to overwrite default behavior.
  */
 export const _logger = new Logger();
-const { debug, info, warning, error, trace, success, newline, notice, installInfo, clearTerminal, markdown } = _logger;
+const {
+  debug,
+  info,
+  warning,
+  error,
+  trace,
+  success,
+  newline,
+  notice,
+  installInfo,
+  clearTerminal,
+  markdown,
+  columns,
+} = _logger;
 
 export default {
   debug,
@@ -303,6 +365,7 @@ export default {
   clearTerminal,
   markdown,
   wrap,
+  columns,
   colors: chalk,
   coloredStrings,
 };

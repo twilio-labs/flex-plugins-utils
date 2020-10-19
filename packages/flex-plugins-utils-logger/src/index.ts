@@ -15,4 +15,5 @@ export { default as strings, multilineString, singleLineString } from './lib/str
 export { default as table, printArray, printObjectArray } from './lib/table';
 export { default as progress } from './lib/progress';
 export { default as inquirer, confirm, prompt, choose, Question } from './lib/inquirer';
+export { default as columnify } from './lib/columnify';
 export { boxen };
