@@ -119,6 +119,46 @@ describe('logger', () => {
     expect(info).toHaveBeenCalledWith('var1 var2');
   });
 
+  it('should print single entry column', () => {
+    logger.columns([['one-entry']]);
+
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith('one-entry');
+  });
+
+  it('should print multile entries with no indent', () => {
+    logger.columns([
+      ['row1-col1', 'row1-col2'],
+      ['row2-col1', 'row2-col2'],
+    ]);
+
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row1-col1'));
+    expect(info).not.toHaveBeenCalledWith(expect.stringContaining('\trow1-col1'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row1-col2'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row2-col1'));
+    expect(info).not.toHaveBeenCalledWith(expect.stringContaining('\trow2-col1'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row2-col2'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('\n'));
+  });
+
+  it('should print multile entries with indent', () => {
+    logger.columns(
+      [
+        ['row1-col1', 'row1-col2'],
+        ['row2-col1', 'row2-col2'],
+      ],
+      { indent: true },
+    );
+
+    expect(info).toHaveBeenCalledTimes(1);
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('\trow1-col1'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row1-col2'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('\trow2-col1'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('row2-col2'));
+    expect(info).toHaveBeenCalledWith(expect.stringContaining('\n'));
+  });
+
   it('should notice info', () => {
     logger.notice('var1', 'var2');
 
