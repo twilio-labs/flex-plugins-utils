@@ -4,10 +4,10 @@
 
 <p align="center">
     <a href="https://travis-ci.com/twilio-labs/flex-plugins-utils">
-        <img src="https://travis-ci.com/twilio-labs/flex-plugins-utils.svg?branch=master" title="Build Status" />
+        <img src="https://travis-ci.com/twilio-labs/flex-plugins-utils.svg?branch=main" title="Build Status" />
     </a>
     <a href="https://codecov.io/gh/twilio-labs/flex-plugins-utils">
-        <img src="https://codecov.io/gh/twilio-labs/flex-plugins-utils/branch/master/graph/badge.svg" title="Code Coverage" />
+        <img src="https://codecov.io/gh/twilio-labs/flex-plugins-utils/branch/main/graph/badge.svg" title="Code Coverage" />
     </a>
     <a href="#contributors">
         <img src="https://img.shields.io/badge/all_contributors-2-orange.svg?style=square" title="All Contributors" />
