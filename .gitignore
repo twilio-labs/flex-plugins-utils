@@ -102,10 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
-
 .idea
 dist
-
 .DS_Store
-
 .ultra.cache.json
