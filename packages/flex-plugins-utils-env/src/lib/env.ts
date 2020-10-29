@@ -64,6 +64,13 @@ const isDebug = (): boolean => {
 };
 
 /**
+ * Sets the realm
+ */
+const setRealm = (realm: Realm): void => {
+  process.env.REALM = realm;
+};
+
+/**
  * Returns the realm
  */
 /* istanbul ignore next */
@@ -103,5 +110,6 @@ export default {
   isDebug,
   isTrace,
   getRealm,
+  setRealm,
   isCI,
 };

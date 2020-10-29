@@ -141,4 +141,11 @@ describe('env', () => {
       expect(env.getRealm()).toEqual('stage');
     });
   });
+
+  describe('setRealm', () => {
+    it('should set realm', () => {
+      env.setRealm('stage');
+      expect(env.getRealm()).toEqual('stage');
+    });
+  });
 });
