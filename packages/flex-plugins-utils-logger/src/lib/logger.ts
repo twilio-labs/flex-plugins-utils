@@ -179,8 +179,9 @@ export class Logger {
   /**
    * Simple wrapper for column printing
    * @param lines
+   * @param options
    */
-  public columns = (lines: string[][], options?: ColumnsOptions) => {
+  public columns = (lines: string[][], options?: ColumnsOptions): void => {
     const minWidths = Array(lines[0].length).fill(0);
     lines.forEach((line) => {
       line.forEach((entry, index) => {
@@ -280,7 +281,7 @@ export class Logger {
    * @private
    */
   private _log = (args: LogArg): void => {
-    if (!this.isQuiet() || args.level === 'error') {
+    if (!this.isQuiet() || args.level === 'error' || this.isDebug()) {
       // eslint-disable-next-line no-console
       const log = console[args.level];
       const color = args.color ? chalk[args.color] : (msg: string) => msg;
