@@ -493,6 +493,15 @@ describe('logger', () => {
         expect(info).not.toHaveBeenCalled();
       });
 
+      it('should log if quiet but is also debug', () => {
+        jest.spyOn(env, 'isDebug').mockReturnValue(true);
+        const instance = new Logger({ isQuiet: true });
+
+        // @ts-ignore
+        instance._log({ level: 'info', args: ['blah'] });
+        expect(info).toHaveBeenCalledTimes(1);
+      });
+
       it('should not log if quiet and warning level', () => {
         const instance = new Logger({ isQuiet: true });
 

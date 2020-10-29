@@ -280,7 +280,7 @@ export class Logger {
    * @private
    */
   private _log = (args: LogArg): void => {
-    if (!this.isQuiet() || args.level === 'error') {
+    if (!this.isQuiet() || args.level === 'error' || this.isDebug()) {
       // eslint-disable-next-line no-console
       const log = console[args.level];
       const color = args.color ? chalk[args.color] : (msg: string) => msg;
