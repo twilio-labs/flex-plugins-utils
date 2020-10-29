@@ -1,6 +1,6 @@
 {
   "name": "flex-plugins-utils-logger",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "description": "Flex Plugins Logger",
   "keywords": [
     "flex",
@@ -44,7 +44,7 @@
     "boxen": "^4.1.0",
     "chalk": "^4.1.0",
     "columnify": "^1.5.4",
-    "flex-plugins-utils-env": "^0.17.0",
+    "flex-plugins-utils-env": "^0.17.1",
     "inquirer": "7.3.3",
     "log-symbols": "^3.0.0",
     "ora": "^4.0.5",
