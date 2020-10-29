@@ -31,6 +31,13 @@ const isTerminalPersisted = (): boolean => isNode() && process.env.PERSIST_TERMI
 const isQuiet = (): boolean => isNode() && process.env.QUIET === 'true';
 
 /**
+ * Sets the quiet mode
+ */
+const setQuiet = (): void => {
+  process.env.QUIET = 'true';
+};
+
+/**
  * Determines if log level should be trace level
  */
 const isTrace = (): boolean => {
@@ -61,6 +68,13 @@ const isDebug = (): boolean => {
   }
 
   return false;
+};
+
+/**
+ * Sets the realm
+ */
+const setRealm = (realm: Realm): void => {
+  process.env.REALM = realm;
 };
 
 /**
@@ -100,8 +114,10 @@ export default {
   persistTerminal,
   isTerminalPersisted,
   isQuiet,
+  setQuiet,
   isDebug,
   isTrace,
   getRealm,
+  setRealm,
   isCI,
 };

@@ -132,12 +132,26 @@ describe('env', () => {
     it('should return false', () => {
       expect(env.isQuiet()).toEqual(false);
     });
+
+    it('should set quiet', () => {
+      expect(env.isQuiet()).toEqual(false);
+      env.setQuiet();
+      expect(env.isQuiet()).toEqual(true);
+    });
   });
 
   describe('getRealm', () => {
     it('should return realm', () => {
       process.env.REALM = 'stage';
 
+      expect(env.getRealm()).toEqual('stage');
+    });
+  });
+
+  describe('setRealm', () => {
+    it('should set realm', () => {
+      expect(env.getRealm()).toBeUndefined();
+      env.setRealm('stage');
       expect(env.getRealm()).toEqual('stage');
     });
   });
