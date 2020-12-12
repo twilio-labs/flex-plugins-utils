@@ -11,6 +11,12 @@ export interface SpawnReturn {
   stderr: string;
 }
 
+interface SpawnPromise<T> extends Promise<T> {
+  cancel: () => void;
+
+  kill: (signal?: NodeJS.Signals | number) => boolean;
+}
+
 /**
  * A wrapper for spawn
  *
@@ -18,42 +24,47 @@ export interface SpawnReturn {
  * @param args      the spawn arguments
  * @param options   the spawn options
  */
-export const spawn = async (cmd: string, args: string[], options: object = DefaultOptions): Promise<SpawnReturn> => {
+// eslint-disable-next-line @typescript-eslint/promise-function-async
+export const spawn = (cmd: string, args: string[], options: object = DefaultOptions): SpawnPromise<SpawnReturn> => {
   const spawnOptions = { ...{ shell: process.env.SHELL }, ...options };
+  const subProcess = execa(cmd, args, spawnOptions);
+  const { cancel, kill } = subProcess;
 
-  try {
-    const { signal, exitCode, stdout, stderr } = await execa(cmd, args, spawnOptions);
+  const promise = subProcess
+    .then(({ signal, exitCode, stdout, stderr }) => {
+      if (signal === 'SIGKILL') {
+        logger.error(
+          singleLineString(
+            'The script has failed because the process exited too early.',
+            'This probably means the system ran out of memory or someone called',
+            '`kill -9` on the process.',
+          ),
+        );
+      } else if (signal === 'SIGTERM') {
+        logger.warning(
+          singleLineString(
+            'The script has failed because the process exited too early.',
+            'Someone might have called `kill` or `killall`, or the system could',
+            'be shutting down.',
+          ),
+        );
+      }
 
-    if (signal === 'SIGKILL') {
-      logger.error(
-        singleLineString(
-          'The script has failed because the process exited too early.',
-          'This probably means the system ran out of memory or someone called',
-          '`kill -9` on the process.',
-        ),
-      );
-    } else if (signal === 'SIGTERM') {
-      logger.warning(
-        singleLineString(
-          'The script has failed because the process exited too early.',
-          'Someone might have called `kill` or `killall`, or the system could',
-          'be shutting down.',
-        ),
-      );
-    }
+      return {
+        exitCode: exitCode || 0,
+        stdout: stdout || '',
+        stderr: stderr || '',
+      };
+    })
+    .catch((e) => {
+      return {
+        exitCode: e.exitCode || 1,
+        stderr: e.message || '',
+        stdout: '',
+      };
+    });
 
-    return {
-      exitCode: exitCode || 0,
-      stdout: stdout || '',
-      stderr: stderr || '',
-    };
-  } catch (e) {
-    return {
-      exitCode: e.exitCode || 1,
-      stderr: e.message || '',
-      stdout: '',
-    };
-  }
+  return Object.assign(promise, { cancel, kill });
 };
 
 /**

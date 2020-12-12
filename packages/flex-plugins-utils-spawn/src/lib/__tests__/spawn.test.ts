@@ -63,9 +63,7 @@ describe('spawn', () => {
   });
 
   it('should catch exception', async () => {
-    execa.mockImplementation(() => {
-      throw new Error('some-error');
-    });
+    execa.mockImplementation(async () => Promise.reject(new Error('some-error')));
 
     const resp = await spawnScripts.default('node', args);
 
@@ -77,9 +75,7 @@ describe('spawn', () => {
   });
 
   it('stderr should be empty with no message', async () => {
-    execa.mockImplementation(() => {
-      throw new Error();
-    });
+    execa.mockImplementation(async () => Promise.reject(new Error()));
 
     const resp = await spawnScripts.default('node', args);
 
