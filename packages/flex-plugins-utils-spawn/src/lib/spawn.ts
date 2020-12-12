@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unused-modules, @typescript-eslint/ban-types */
+/* eslint-disable import/no-unused-modules, @typescript-eslint/ban-types, @typescript-eslint/promise-function-async */
 
 import execa from 'execa';
 import { logger, singleLineString } from 'flex-plugins-utils-logger';
@@ -11,11 +11,13 @@ export interface SpawnReturn {
   stderr: string;
 }
 
-export interface SpawnPromise<T> extends Promise<T> {
+interface SPromise<T> extends Promise<T> {
   cancel: () => void;
 
   kill: (signal?: NodeJS.Signals | number) => boolean;
 }
+
+export type SpawnPromise = SPromise<SpawnReturn>;
 
 /**
  * A wrapper for spawn
@@ -24,8 +26,7 @@ export interface SpawnPromise<T> extends Promise<T> {
  * @param args      the spawn arguments
  * @param options   the spawn options
  */
-// eslint-disable-next-line @typescript-eslint/promise-function-async
-export const spawn = (cmd: string, args: string[], options: object = DefaultOptions): SpawnPromise<SpawnReturn> => {
+export const spawn = (cmd: string, args: string[], options: object = DefaultOptions): SpawnPromise => {
   const spawnOptions = { ...{ shell: process.env.SHELL }, ...options };
   const subProcess = execa(cmd, args, spawnOptions);
   const { cancel, kill } = subProcess;
@@ -73,8 +74,7 @@ export const spawn = (cmd: string, args: string[], options: object = DefaultOpti
  * @param args      the spawn arguments
  * @param options   the spawn options
  */
-export const node = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
-  spawn('node', args, options);
+export const node = (args: string[], options: object = DefaultOptions): SpawnPromise => spawn('node', args, options);
 
 /**
  * Spawns an npm
@@ -82,8 +82,7 @@ export const node = async (args: string[], options: object = DefaultOptions): Pr
  * @param args      the spawn arguments
  * @param options   the spawn options
  */
-export const npm = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
-  spawn('npm', args, options);
+export const npm = (args: string[], options: object = DefaultOptions): SpawnPromise => spawn('npm', args, options);
 
 /**
  * Spawns a yarn
@@ -91,7 +90,6 @@ export const npm = async (args: string[], options: object = DefaultOptions): Pro
  * @param args      the spawn arguments
  * @param options   the spawn options
  */
-export const yarn = async (args: string[], options: object = DefaultOptions): Promise<SpawnReturn> =>
-  spawn('yarn', args, options);
+export const yarn = (args: string[], options: object = DefaultOptions): SpawnPromise => spawn('yarn', args, options);
 
 export default spawn;
