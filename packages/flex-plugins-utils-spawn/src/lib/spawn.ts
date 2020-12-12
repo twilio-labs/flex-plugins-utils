@@ -11,7 +11,7 @@ export interface SpawnReturn {
   stderr: string;
 }
 
-interface SpawnPromise<T> extends Promise<T> {
+export interface SpawnPromise<T> extends Promise<T> {
   cancel: () => void;
 
   kill: (signal?: NodeJS.Signals | number) => boolean;
