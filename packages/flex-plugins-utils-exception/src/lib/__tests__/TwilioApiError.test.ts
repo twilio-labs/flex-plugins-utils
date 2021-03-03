@@ -2,6 +2,8 @@ import TwilioError from '../TwilioError';
 import TwilioApiError from '../TwilioApiError';
 
 describe('TwilioApiError', () => {
+  const errMsg = 'the-message';
+
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -15,20 +17,20 @@ describe('TwilioApiError', () => {
   });
 
   it('should have required properties set', () => {
-    const err = new TwilioApiError(456, 'the-message', 400);
+    const err = new TwilioApiError(456, errMsg, 400);
 
     expect(err.status).toEqual(400);
     expect(err.code).toEqual(456);
-    expect(err.message).toEqual('the-message');
+    expect(err.message).toEqual(errMsg);
     expect(err.moreInfo).toBeUndefined();
   });
 
   it('should have all properties set', () => {
-    const err = new TwilioApiError(456, 'the-message', 400, 'more-info');
+    const err = new TwilioApiError(456, errMsg, 400, 'more-info');
 
     expect(err.status).toEqual(400);
     expect(err.code).toEqual(456);
-    expect(err.message).toEqual('the-message');
+    expect(err.message).toEqual(errMsg);
     expect(err.moreInfo).toEqual('more-info');
   });
 });

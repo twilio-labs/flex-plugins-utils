@@ -42,18 +42,18 @@ describe('env', () => {
   });
 
   describe('isTerminalPersisted', () => {
-    it('should return true', () => {
+    it('isTerminalPersisted should return true', () => {
       process.env.PERSIST_TERMINAL = 'true';
       expect(env.isTerminalPersisted()).toEqual(true);
     });
 
-    it('should return false', () => {
+    it('isTerminalPersisted should return false', () => {
       expect(env.isTerminalPersisted()).toEqual(false);
     });
   });
 
   describe('debug', () => {
-    it('should return true', () => {
+    it('debug should return true', () => {
       process.env.DEBUG = 'true';
       expect(env.isDebug()).toEqual(true);
     });
@@ -63,7 +63,7 @@ describe('env', () => {
       expect(env.isDebug()).toEqual(true);
     });
 
-    it('should return false', () => {
+    it('debug should return false', () => {
       expect(env.isDebug()).toEqual(false);
     });
 
@@ -91,12 +91,12 @@ describe('env', () => {
   });
 
   describe('trace', () => {
-    it('should return true', () => {
+    it('trace should return true', () => {
       process.env.TRACE = 'true';
       expect(env.isTrace()).toEqual(true);
     });
 
-    it('should return false', () => {
+    it('trace should return false', () => {
       expect(env.isTrace()).toEqual(false);
     });
 

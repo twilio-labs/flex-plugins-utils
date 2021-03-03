@@ -3,6 +3,9 @@ import logSymbol from 'log-symbols';
 import * as boxen from '../boxen';
 
 describe('boxen', () => {
+  const warnMsg = 'the-warning';
+  const successMsg = 'the-success';
+
   beforeEach(() => {
     jest.resetAllMocks();
   });
@@ -13,7 +16,7 @@ describe('boxen', () => {
     });
     const symbol = logSymbol.warning;
 
-    boxen.warning('the-warning');
+    boxen.warning(warnMsg);
 
     expect(print).toHaveBeenCalledTimes(1);
     expect(print).toHaveBeenCalledWith('warning', `${symbol} the-warning ${symbol}`);
@@ -26,10 +29,10 @@ describe('boxen', () => {
       /* no-op */
     });
 
-    boxen.warning('the-warning', false);
+    boxen.warning(warnMsg, false);
 
     expect(print).toHaveBeenCalledTimes(1);
-    expect(print).toHaveBeenCalledWith('warning', 'the-warning');
+    expect(print).toHaveBeenCalledWith('warning', warnMsg);
 
     print.mockRestore();
   });
@@ -94,7 +97,7 @@ describe('boxen', () => {
     });
     const symbol = logSymbol.success;
 
-    boxen.success('the-success');
+    boxen.success(successMsg);
 
     expect(print).toHaveBeenCalledTimes(1);
     expect(print).toHaveBeenCalledWith('success', `${symbol} the-success ${symbol}`);
@@ -107,10 +110,10 @@ describe('boxen', () => {
       /* no-op */
     });
 
-    boxen.success('the-success', false);
+    boxen.success(successMsg, false);
 
     expect(print).toHaveBeenCalledTimes(1);
-    expect(print).toHaveBeenCalledWith('success', 'the-success');
+    expect(print).toHaveBeenCalledWith('success', successMsg);
 
     print.mockRestore();
   });
