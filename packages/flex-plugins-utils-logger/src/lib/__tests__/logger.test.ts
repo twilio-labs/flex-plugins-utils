@@ -215,13 +215,6 @@ describe('logger', () => {
       expect(boldGreen).toHaveBeenCalledWith('some-text');
     });
 
-    it('should call chalk green', () => {
-      coloredStrings.headline('some-text');
-
-      expect(boldGreen).toHaveBeenCalledTimes(1);
-      expect(boldGreen).toHaveBeenCalledWith('some-text');
-    });
-
     it('should call chalk bright magenta', () => {
       coloredStrings.name('some-text');
 
@@ -372,7 +365,7 @@ describe('logger', () => {
     });
 
     describe('isDebug', () => {
-      it('should return true from the option', () => {
+      it('isDebug should return true from the option', () => {
         const instance = new Logger({ isDebug: true });
 
         // @ts-ignore
@@ -380,7 +373,7 @@ describe('logger', () => {
         expect(env.isDebug).not.toHaveBeenCalled();
       });
 
-      it('should return false from the option', () => {
+      it('isDebug should return false from the option', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(true);
         const instance = new Logger({ isDebug: false });
 
@@ -389,7 +382,7 @@ describe('logger', () => {
         expect(env.isDebug).not.toHaveBeenCalled();
       });
 
-      it('should return true from env var', () => {
+      it('isDebug should return true from env var', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(true);
         const instance = new Logger();
 
@@ -398,7 +391,7 @@ describe('logger', () => {
         expect(env.isDebug).toHaveBeenCalledTimes(1);
       });
 
-      it('should return false from env var', () => {
+      it('isDebug should return false from env var', () => {
         jest.spyOn(env, 'isDebug').mockReturnValue(false);
         const instance = new Logger();
 

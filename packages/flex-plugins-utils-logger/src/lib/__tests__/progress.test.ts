@@ -3,6 +3,7 @@ import * as ora from '../progress';
 
 describe('Progress', () => {
   const OLD_ENV = process.env;
+  const respMsg = 'the-response';
 
   beforeEach(() => {
     jest.resetAllMocks();
@@ -34,22 +35,22 @@ describe('Progress', () => {
 
     it('should succeed', async () => {
       const spinner = getMockedMethods();
-      const callback = jest.fn().mockResolvedValue('the-response');
+      const callback = jest.fn().mockResolvedValue(respMsg);
       const response = await ora.progress(title, callback);
 
       expectOraCalled(spinner, callback, false);
-      expect(response).toEqual('the-response');
+      expect(response).toEqual(respMsg);
       expect(spinner.succeed).toHaveBeenCalledTimes(1);
       expect(spinner.fail).not.toBeCalled();
     });
 
     it('should not start ora if disabled is true', async () => {
       const spinner = getMockedMethods();
-      const callback = jest.fn().mockResolvedValue('the-response');
+      const callback = jest.fn().mockResolvedValue(respMsg);
       const response = await ora.progress(title, callback, true);
 
       expectOraCalled(spinner, callback, true);
-      expect(response).toEqual('the-response');
+      expect(response).toEqual(respMsg);
       expect(spinner.succeed).toHaveBeenCalledTimes(1);
       expect(spinner.fail).not.toBeCalled();
     });
@@ -57,11 +58,11 @@ describe('Progress', () => {
     it('should not start ora if isQuiet', async () => {
       process.env.QUIET = 'true';
       const spinner = getMockedMethods();
-      const callback = jest.fn().mockResolvedValue('the-response');
+      const callback = jest.fn().mockResolvedValue(respMsg);
       const response = await ora.progress(title, callback, true);
 
       expectOraCalled(spinner, callback, true);
-      expect(response).toEqual('the-response');
+      expect(response).toEqual(respMsg);
       expect(spinner.succeed).toHaveBeenCalledTimes(1);
       expect(spinner.fail).not.toBeCalled();
     });
