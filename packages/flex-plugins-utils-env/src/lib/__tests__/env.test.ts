@@ -137,6 +137,10 @@ describe('env', () => {
       expect(env.isQuiet()).toEqual(false);
       env.setQuiet();
       expect(env.isQuiet()).toEqual(true);
+      env.setQuiet(false);
+      expect(env.isQuiet()).toEqual(false);
+      env.setQuiet(true);
+      expect(env.isQuiet()).toEqual(true);
     });
   });
 
@@ -153,6 +157,24 @@ describe('env', () => {
       expect(env.getRealm()).toBeUndefined();
       env.setRealm('stage');
       expect(env.getRealm()).toEqual('stage');
+    });
+  });
+
+  describe('CLI', () => {
+    it('should return true', () => {
+      process.env.FLEX_PLUGINS_CLI = 'true';
+
+      expect(env.isCLI()).toEqual(true);
+    });
+
+    it('should return false', () => {
+      expect(env.isCLI()).toEqual(false);
+    });
+
+    it('should set CLI', () => {
+      expect(env.isCLI()).toEqual(false);
+      env.setCLI();
+      expect(env.isCLI()).toEqual(true);
     });
   });
 });
