@@ -33,8 +33,20 @@ const isQuiet = (): boolean => isNode() && process.env.QUIET === 'true';
 /**
  * Sets the quiet mode
  */
-const setQuiet = (): void => {
-  process.env.QUIET = 'true';
+const setQuiet = (isQuiet: boolean = true): void => {
+  process.env.QUIET = String(isQuiet);
+};
+
+/**
+ * Returns true if the caller is the CLI
+ */
+const isCLI = (): boolean => process.env.FLEX_PLUGINS_CLI === 'true';
+
+/**
+ * Sets the caller to be the CLI
+ */
+const setCLI = (): void => {
+  process.env.FLEX_PLUGINS_CLI = 'true';
 };
 
 /**
@@ -120,4 +132,6 @@ export default {
   getRealm,
   setRealm,
   isCI,
+  isCLI,
+  setCLI,
 };
